@@ -118,3 +118,26 @@ currencySelect.addEventListener('change', () => {
     priceTag.textContent = `${symbols[selectedCurrency]}${convertedPrice}`;
   });
 });
+
+// Function to update cart count
+function updateCartCount() {
+    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+    const cartCount = document.querySelector('.cart-count');
+    
+    if (cartCount) {
+        cartCount.textContent = totalItems;
+        cartCount.style.display = totalItems > 0 ? 'flex' : 'none';
+        
+        // Add animation
+        cartCount.style.transform = 'scale(1.2)';
+        setTimeout(() => {
+            cartCount.style.transform = 'scale(1)';
+        }, 300);
+    }
+}
+
+// Update cart count when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    updateCartCount();
+});

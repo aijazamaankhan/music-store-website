@@ -98,18 +98,43 @@
         }
 
         .blog-tag {
+            display: inline-block;
+            padding: 0.4rem 1rem;
             background: var(--color-primary);
             color: white;
-            padding: 0.3rem 0.8rem;
             border-radius: 20px;
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             font-weight: 500;
-            transition: all 0.3s ease;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .blog-tag::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--color-primary-dark);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
         }
 
         .blog-tag:hover {
-            background: var(--color-primary-dark);
             transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 111, 97, 0.3);
+        }
+
+        .blog-tag:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
         }
 
         .read-more {
@@ -238,6 +263,7 @@
             </div>
             <a href="cart.html" class="cart-icon" title="View Cart">
                 <i class="fas fa-shopping-basket"></i>
+                <span class="cart-count">0</span>
             </a>
         </div>
     </header>

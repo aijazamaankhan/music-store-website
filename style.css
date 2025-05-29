@@ -198,14 +198,43 @@ ul.nav-links li a:hover {
 
 /* Cart icon */
 .cart-icon {
+  position: relative;
+  text-decoration: none;
+  color: var(--color-dark);
   font-size: 1.5rem;
-  cursor: pointer;
-  color: var(--color-primary);
-  transition: transform var(--transition);
+  transition: color 0.3s ease;
 }
 
 .cart-icon:hover {
-  transform: scale(1.2);
+  color: var(--color-primary);
+}
+
+.cart-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: var(--color-primary);
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 600;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .cart-count {
+    top: -5px;
+    right: -5px;
+    width: 18px;
+    height: 18px;
+    font-size: 0.7rem;
+  }
 }
 
 /* HERO CAROUSEL */

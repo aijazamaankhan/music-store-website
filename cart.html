@@ -7,10 +7,36 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            padding-top: 70px; /* Account for fixed header */
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+        }
+
+        .main-footer {
+            margin-top: auto;
+            background-color: var(--color-dark);
+            color: var(--color-light);
+            padding: 2.5rem 2rem 1rem 2rem;
+            font-size: 0.9rem;
+            border-top-left-radius: var(--border-radius);
+            border-top-right-radius: var(--border-radius);
+        }
+
         .cart-section {
             max-width: 1200px;
-            margin: 2rem auto;
+            margin: 0 auto;
             padding: 2rem;
+            background: #fff;
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
         }
 
         .cart-header {
@@ -146,6 +172,39 @@
             margin-top: 1rem;
         }
 
+        .cart-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .update-cart-btn {
+            background: var(--color-primary);
+            color: white;
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .update-cart-btn:hover {
+            background: var(--color-primary-light);
+            transform: translateY(-2px);
+        }
+
+        .update-cart-btn i {
+            font-size: 1.2rem;
+        }
+
         .checkout-btn {
             background: var(--color-primary);
             color: white;
@@ -157,7 +216,6 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 1.5rem;
         }
 
         .checkout-btn:hover {
@@ -232,6 +290,52 @@
                 grid-column: 2;
                 justify-self: flex-start;
             }
+
+            .cart-buttons {
+                gap: 0.8rem;
+            }
+
+            .update-cart-btn, .checkout-btn {
+                padding: 0.8rem;
+                font-size: 1rem;
+            }
+
+            .cart-count {
+                top: -5px;
+                right: -5px;
+                width: 18px;
+                height: 18px;
+                font-size: 0.7rem;
+            }
+        }
+
+        .cart-icon {
+            position: relative;
+            text-decoration: none;
+            color: var(--color-dark);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .cart-icon:hover {
+            color: var(--color-primary);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--color-primary);
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 600;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
         }
     </style>
 </head>
@@ -276,76 +380,85 @@
             </div>
             <a href="cart.html" class="cart-icon" title="View Cart">
                 <i class="fas fa-shopping-basket"></i>
+                <span class="cart-count">0</span>
             </a>
         </div>
     </header>
 
-    <!-- CART SECTION -->
-    <section class="cart-section">
-        <div class="cart-header">
-            <h1 class="cart-title">Shopping Cart</h1>
-        </div>
+    <div class="main-content">
+        <!-- CART SECTION -->
+        <section class="cart-section">
+            <div class="cart-header">
+                <h1 class="cart-title">Shopping Cart</h1>
+            </div>
 
-        <div class="cart-container">
-            <div class="cart-items">
-                <!-- Sample Cart Items -->
-                <div class="cart-item">
-                    <img src="images/mughal-e-azam.jpg" alt="Mughal-e-Azam" class="item-image">
-                    <div class="item-details">
-                        <h3>Mughal-e-Azam</h3>
-                        <p>Vinyl Record</p>
+            <div class="cart-container">
+                <div class="cart-items">
+                    <!-- Sample Cart Items -->
+                    <div class="cart-item">
+                        <img src="images/mughal-e-azam.jpg" alt="Mughal-e-Azam" class="item-image">
+                        <div class="item-details">
+                            <h3>Mughal-e-Azam</h3>
+                            <p>Vinyl Record</p>
+                        </div>
+                        <div class="quantity-controls">
+                            <button class="quantity-btn minus">-</button>
+                            <input type="number" class="quantity-input" value="1" min="1">
+                            <button class="quantity-btn plus">+</button>
+                        </div>
+                        <div class="item-price">₹1,499</div>
+                        <div class="remove-item">
+                            <i class="fas fa-trash"></i>
+                        </div>
                     </div>
-                    <div class="quantity-controls">
-                        <button class="quantity-btn minus">-</button>
-                        <input type="number" class="quantity-input" value="1" min="1">
-                        <button class="quantity-btn plus">+</button>
-                    </div>
-                    <div class="item-price">₹1,499</div>
-                    <div class="remove-item">
-                        <i class="fas fa-trash"></i>
+
+                    <div class="cart-item">
+                        <img src="images/sholay.jpg" alt="Sholay" class="item-image">
+                        <div class="item-details">
+                            <h3>Sholay</h3>
+                            <p>Vinyl Record</p>
+                        </div>
+                        <div class="quantity-controls">
+                            <button class="quantity-btn minus">-</button>
+                            <input type="number" class="quantity-input" value="1" min="1">
+                            <button class="quantity-btn plus">+</button>
+                        </div>
+                        <div class="item-price">₹1,299</div>
+                        <div class="remove-item">
+                            <i class="fas fa-trash"></i>
+                        </div>
                     </div>
                 </div>
 
-                <div class="cart-item">
-                    <img src="images/sholay.jpg" alt="Sholay" class="item-image">
-                    <div class="item-details">
-                        <h3>Sholay</h3>
-                        <p>Vinyl Record</p>
+                <div class="cart-summary">
+                    <h2 class="summary-title">Order Summary</h2>
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span>₹2,798</span>
                     </div>
-                    <div class="quantity-controls">
-                        <button class="quantity-btn minus">-</button>
-                        <input type="number" class="quantity-input" value="1" min="1">
-                        <button class="quantity-btn plus">+</button>
+                    <div class="summary-row">
+                        <span>Shipping</span>
+                        <span>₹100</span>
                     </div>
-                    <div class="item-price">₹1,299</div>
-                    <div class="remove-item">
-                        <i class="fas fa-trash"></i>
+                    <div class="summary-row">
+                        <span>Tax</span>
+                        <span>₹279.80</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total</span>
+                        <span>₹3,177.80</span>
+                    </div>
+                    <div class="cart-buttons">
+                        <button class="update-cart-btn" onclick="updateCart()">
+                            <i class="fas fa-sync-alt"></i>
+                            Update Cart
+                        </button>
+                        <button class="checkout-btn">Proceed to Checkout</button>
                     </div>
                 </div>
             </div>
-
-            <div class="cart-summary">
-                <h2 class="summary-title">Order Summary</h2>
-                <div class="summary-row">
-                    <span>Subtotal</span>
-                    <span>₹2,798</span>
-                </div>
-                <div class="summary-row">
-                    <span>Shipping</span>
-                    <span>₹100</span>
-                </div>
-                <div class="summary-row">
-                    <span>Tax</span>
-                    <span>₹279.80</span>
-                </div>
-                <div class="summary-row total">
-                    <span>Total</span>
-                    <span>₹3,177.80</span>
-                </div>
-                <button class="checkout-btn">Proceed to Checkout</button>
-            </div>
-        </div>
-    </section>
+        </section>
+    </div>
 
     <!-- FOOTER -->
     <footer class="main-footer">
@@ -407,38 +520,113 @@
                         <p>${item.type}</p>
                     </div>
                     <div class="quantity-controls">
-                        <button class="quantity-btn minus">-</button>
+                        <button class="quantity-btn minus" type="button">-</button>
                         <input type="number" class="quantity-input" value="${item.quantity}" min="1">
-                        <button class="quantity-btn plus">+</button>
+                        <button class="quantity-btn plus" type="button">+</button>
                     </div>
-                    <div class="item-price" data-original-price="${item.price}">₹${item.price}</div>
+                    <div class="item-price" data-original-price="${item.price}">₹${(item.price * item.quantity).toFixed(2)}</div>
                     <div class="remove-item">
                         <i class="fas fa-trash"></i>
                     </div>
                 </div>
             `).join('');
 
-            // Reattach event listeners
-            attachEventListeners();
+            // Add event listeners after creating the elements
+            addEventListeners();
             updateCart();
         }
 
-        // Attach event listeners to cart items
-        function attachEventListeners() {
-            // Quantity controls
-            document.querySelectorAll('.quantity-btn').forEach(button => {
+        // Add event listeners to cart items
+        function addEventListeners() {
+            // Plus button
+            document.querySelectorAll('.quantity-btn.plus').forEach(button => {
+                button.addEventListener('click', function() {
+                    const input = this.parentElement.querySelector('.quantity-input');
+                    const currentValue = parseInt(input.value);
+                    input.value = currentValue + 1;
+                    
+                    // Update the item in localStorage
+                    const cartItem = this.closest('.cart-item');
+                    const productId = cartItem.dataset.productId;
+                    let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+                    const itemIndex = cartItems.findIndex(item => item.id === productId);
+                    
+                    if (itemIndex > -1) {
+                        cartItems[itemIndex].quantity = currentValue + 1;
+                        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                        
+                        // Update the price display immediately
+                        const priceElement = cartItem.querySelector('.item-price');
+                        const originalPrice = parseFloat(priceElement.dataset.originalPrice);
+                        const newTotal = originalPrice * (currentValue + 1);
+                        priceElement.textContent = `₹${newTotal.toFixed(2)}`;
+                        
+                        // Update cart totals immediately
+                        updateCart();
+                        updateCartCount();
+                    }
+                });
+            });
+
+            // Minus button
+            document.querySelectorAll('.quantity-btn.minus').forEach(button => {
                 button.addEventListener('click', function() {
                     const input = this.parentElement.querySelector('.quantity-input');
                     const currentValue = parseInt(input.value);
                     
-                    if (this.classList.contains('plus')) {
-                        input.value = currentValue + 1;
-                    } else if (this.classList.contains('minus') && currentValue > 1) {
+                    if (currentValue > 1) {
                         input.value = currentValue - 1;
+                        
+                        // Update the item in localStorage
+                        const cartItem = this.closest('.cart-item');
+                        const productId = cartItem.dataset.productId;
+                        let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+                        const itemIndex = cartItems.findIndex(item => item.id === productId);
+                        
+                        if (itemIndex > -1) {
+                            cartItems[itemIndex].quantity = currentValue - 1;
+                            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                            
+                            // Update the price display immediately
+                            const priceElement = cartItem.querySelector('.item-price');
+                            const originalPrice = parseFloat(priceElement.dataset.originalPrice);
+                            const newTotal = originalPrice * (currentValue - 1);
+                            priceElement.textContent = `₹${newTotal.toFixed(2)}`;
+                            
+                            // Update cart totals immediately
+                            updateCart();
+                            updateCartCount();
+                        }
                     }
+                });
+            });
+
+            // Quantity input
+            document.querySelectorAll('.quantity-input').forEach(input => {
+                input.addEventListener('input', function() {
+                    if (this.value < 1) this.value = 1;
+                    const currentValue = parseInt(this.value);
                     
-                    updateCartItem(this.closest('.cart-item'));
-                    updateCart();
+                    // Update the item in localStorage
+                    const cartItem = this.closest('.cart-item');
+                    const productId = cartItem.dataset.productId;
+                    let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+                    const itemIndex = cartItems.findIndex(item => item.id === productId);
+                    
+                    if (itemIndex > -1) {
+                        cartItems[itemIndex].quantity = currentValue;
+                        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                        
+                        // Update the price display immediately
+                        const priceElement = cartItem.querySelector('.item-price');
+                        const originalPrice = parseFloat(priceElement.dataset.originalPrice);
+                        const newTotal = originalPrice * currentValue;
+                        priceElement.textContent = `₹${newTotal.toFixed(2)}`;
+                        
+                        // Update cart totals immediately
+                        updateCart();
+                        updateCartCount();
+                    }
                 });
             });
 
@@ -453,30 +641,24 @@
                     cartItems = cartItems.filter(item => item.id !== productId);
                     localStorage.setItem('cartItems', JSON.stringify(cartItems));
                     
-                    // Remove from DOM
-                    cartItem.remove();
-                    updateCart();
+                    // Remove from DOM with animation
+                    cartItem.style.transition = 'all 0.3s ease';
+                    cartItem.style.opacity = '0';
+                    cartItem.style.transform = 'translateX(20px)';
                     
-                    // Reload cart if empty
-                    if (cartItems.length === 0) {
-                        loadCartItems();
-                    }
+                    setTimeout(() => {
+                        cartItem.remove();
+                        // Update cart totals immediately
+                        updateCart();
+                        updateCartCount();
+                        
+                        // Reload cart if empty
+                        if (cartItems.length === 0) {
+                            loadCartItems();
+                        }
+                    }, 300);
                 });
             });
-        }
-
-        // Update individual cart item in localStorage
-        function updateCartItem(cartItem) {
-            const productId = cartItem.dataset.productId;
-            const quantity = parseInt(cartItem.querySelector('.quantity-input').value);
-            
-            let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-            const itemIndex = cartItems.findIndex(item => item.id === productId);
-            
-            if (itemIndex > -1) {
-                cartItems[itemIndex].quantity = quantity;
-                localStorage.setItem('cartItems', JSON.stringify(cartItems));
-            }
         }
 
         // Update cart totals
@@ -492,10 +674,50 @@
             const tax = subtotal * 0.1; // 10% tax
             const total = subtotal + shipping + tax;
 
-            document.querySelector('.summary-row:nth-child(1) span:last-child').textContent = `₹${subtotal.toFixed(2)}`;
-            document.querySelector('.summary-row:nth-child(3) span:last-child').textContent = `₹${tax.toFixed(2)}`;
-            document.querySelector('.summary-row.total span:last-child').textContent = `₹${total.toFixed(2)}`;
+            // Update summary with animation
+            const summaryElements = {
+                subtotal: document.querySelector('.summary-row:nth-child(1) span:last-child'),
+                tax: document.querySelector('.summary-row:nth-child(3) span:last-child'),
+                total: document.querySelector('.summary-row.total span:last-child')
+            };
+
+            // Add transition effect
+            Object.values(summaryElements).forEach(element => {
+                element.style.transition = 'all 0.3s ease';
+                element.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    element.style.transform = 'scale(1)';
+                }, 300);
+            });
+
+            summaryElements.subtotal.textContent = `₹${subtotal.toFixed(2)}`;
+            summaryElements.tax.textContent = `₹${tax.toFixed(2)}`;
+            summaryElements.total.textContent = `₹${total.toFixed(2)}`;
         }
+
+        // Function to update cart count
+        function updateCartCount() {
+            const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+            const cartCount = document.querySelector('.cart-count');
+            
+            if (cartCount) {
+                cartCount.textContent = totalItems;
+                cartCount.style.display = totalItems > 0 ? 'flex' : 'none';
+                
+                // Add animation
+                cartCount.style.transform = 'scale(1.2)';
+                setTimeout(() => {
+                    cartCount.style.transform = 'scale(1)';
+                }, 300);
+            }
+        }
+
+        // Update cart count when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCartItems();
+            updateCartCount();
+        });
 
         // Currency conversion
         const currencySelect = document.getElementById('currency');
@@ -522,9 +744,6 @@
                 });
             });
         }
-
-        // Load cart items when page loads
-        document.addEventListener('DOMContentLoaded', loadCartItems);
     </script>
 </body>
 </html> 

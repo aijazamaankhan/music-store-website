@@ -160,8 +160,8 @@
 
         .about-features {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
             margin-top: 3rem;
         }
 
@@ -175,11 +175,13 @@
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
 
         .feature-item:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 25px rgba(255, 111, 97, 0.2);
+            border-color: var(--color-primary-light);
         }
 
         .feature-icon {
@@ -268,7 +270,18 @@
             }
 
             .about-features {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .about-features {
                 grid-template-columns: 1fr;
+            }
+            
+            .feature-item {
+                padding: 1.2rem;
             }
         }
 
@@ -333,6 +346,138 @@
                 font-size: 1.3rem;
             }
         }
+
+        /* Add these styles to your existing header styles */
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-profile {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .profile-icon {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 20px;
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .profile-icon i {
+            font-size: 1.2rem;
+        }
+
+        .user-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 0.5rem 0;
+            min-width: 150px;
+            display: none;
+            z-index: 1000;
+        }
+
+        .user-profile:hover .profile-dropdown {
+            display: block;
+        }
+
+        .profile-dropdown a {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            color: var(--color-dark);
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .profile-dropdown a:hover {
+            background-color: var(--color-gray-light);
+        }
+
+        .profile-dropdown i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .login-btn, .signup-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .login-btn {
+            color: var(--color-primary);
+            border: 1px solid var(--color-primary);
+        }
+
+        .signup-btn {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .login-btn:hover {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .signup-btn:hover {
+            background: var(--color-primary-light);
+        }
+
+        @media (max-width: 768px) {
+            .user-actions {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .profile-dropdown {
+                position: static;
+                box-shadow: none;
+                display: none;
+                width: 100%;
+            }
+
+            .user-profile:hover .profile-dropdown {
+                display: none;
+            }
+
+            .user-profile.active .profile-dropdown {
+                display: block;
+            }
+
+            .auth-buttons {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .login-btn, .signup-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
     </style>
 </head>
 
@@ -369,16 +514,33 @@
                     <li><a href="about.html">About Us</a></li>
                     <li><a href="blog.html">Blog</a></li>
                     <li><a href="contact.html">Contact Us</a></li>
-                    <li><a href="login.html">Login / Register</a></li>
                 </ul>
                 <div class="menu-toggle" id="mobile-menu">&#9776;</div>
             </nav>
             <div class="search-bar">
                 <input type="text" placeholder="Search products..." />
             </div>
-            <a href="cart.html" class="cart-icon" title="View Cart">
-                <i class="fas fa-shopping-basket"></i>
-            </a>
+            <div class="user-actions">
+                <a href="cart.html" class="cart-icon" title="View Cart">
+                    <i class="fas fa-shopping-basket"></i>
+                    <span class="cart-count">0</span>
+                </a>
+                <div class="user-profile" style="display: none;">
+                    <div class="profile-icon">
+                        <i class="fas fa-user-circle"></i>
+                        <span class="user-name"></span>
+                    </div>
+                    <div class="profile-dropdown">
+                        <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+                        <a href="orders.html"><i class="fas fa-box"></i> Orders</a>
+                        <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+                <div class="auth-buttons">
+                    <a href="login.html" class="login-btn">Login</a>
+                    <a href="signup.html" class="signup-btn">Sign Up</a>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -721,6 +883,46 @@
                 }
             },
             retina_detect: true
+        });
+
+        // Add this to your existing JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in
+            const user = JSON.parse(localStorage.getItem('user'));
+            const userProfile = document.querySelector('.user-profile');
+            const authButtons = document.querySelector('.auth-buttons');
+            const userName = document.querySelector('.user-name');
+
+            if (user) {
+                userProfile.style.display = 'block';
+                authButtons.style.display = 'none';
+                userName.textContent = user.name || user.email;
+            } else {
+                userProfile.style.display = 'none';
+                authButtons.style.display = 'flex';
+            }
+
+            // Handle logout
+            const logoutBtn = document.getElementById('logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    localStorage.removeItem('user');
+                    window.location.href = 'index.html';
+                });
+            }
+
+            // Mobile menu toggle for profile dropdown
+            const profileIcon = document.querySelector('.profile-icon');
+            if (profileIcon) {
+                profileIcon.addEventListener('click', function(e) {
+                    if (window.innerWidth <= 768) {
+                        e.preventDefault();
+                        const userProfile = this.parentElement;
+                        userProfile.classList.toggle('active');
+                    }
+                });
+            }
         });
     </script>
 </body>
