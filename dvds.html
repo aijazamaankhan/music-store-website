@@ -225,6 +225,170 @@
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
         }
 
+        /* Fancy Sort Controls */
+        .sort-controls {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin: 2rem auto;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            position: relative;
+            overflow: hidden;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .sort-controls::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-primary-light));
+        }
+
+        .sort-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .sort-label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sort-label i {
+            color: var(--color-primary);
+        }
+
+        .sort-select {
+            padding: 0.8rem 1.2rem;
+            border: 2px solid var(--color-gray-light);
+            border-radius: 10px;
+            font-size: 1rem;
+            color: var(--color-dark);
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 200px;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23FF6F61' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.2rem;
+            padding-right: 3rem;
+        }
+
+        .sort-select:hover {
+            border-color: var(--color-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 111, 97, 0.1);
+        }
+
+        .sort-select:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(255, 111, 97, 0.1);
+        }
+
+        .sort-select option {
+            padding: 1rem;
+        }
+
+        .sort-count {
+            font-size: 0.9rem;
+            color: var(--color-gray);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--color-gray-light);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .sort-count:hover {
+            background: var(--color-primary-light);
+            color: white;
+        }
+
+        .sort-count i {
+            color: var(--color-primary);
+        }
+
+        .sort-count:hover i {
+            color: white;
+        }
+
+        .clear-filter {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: var(--color-gray-light);
+            color: var(--color-dark);
+            border: none;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .clear-filter:hover {
+            background: var(--color-primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 111, 97, 0.2);
+        }
+
+        .clear-filter i {
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .clear-filter:hover i {
+            transform: rotate(180deg);
+        }
+
+        @media (max-width: 768px) {
+            .sort-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .sort-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .sort-select {
+                width: 100%;
+            }
+        }
+
         @media (max-width: 1200px) {
             .records-grid {
                 grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -318,9 +482,36 @@
         <div id="particles-js"></div>
         <div class="title-content">
             <h1 class="section-title">DVDs</h1>
-            <p class="section-description">Browse our extensive collection of DVDs, featuring movies, TV shows, and documentaries.</p>
+            <p class="section-description">Explore our extensive collection of DVDs, from classic movies to the latest releases.</p>
         </div>
     </section>
+
+    <!-- SORT CONTROLS -->
+    <div class="sort-controls">
+        <div class="sort-group">
+            <label class="sort-label">
+                <i class="fas fa-sort"></i>
+                Sort by:
+            </label>
+            <select class="sort-select" id="sort-by">
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="year-new">Year: Newest First</option>
+                <option value="year-old">Year: Oldest First</option>
+                <option value="name-asc">Name: A to Z</option>
+                <option value="name-desc">Name: Z to A</option>
+                <option value="rating">Rating: Highest First</option>
+            </select>
+            <button class="clear-filter" id="clear-filter">
+                <i class="fas fa-times-circle"></i>
+                Clear Filter
+            </button>
+        </div>
+        <div class="sort-count">
+            <i class="fas fa-film"></i>
+            <span id="record-count">0 DVDs found</span>
+        </div>
+    </div>
 
     <!-- RECORDS SECTION -->
     <section class="records-section">
@@ -617,6 +808,94 @@
                     updatePrices(this.value);
                 });
             }
+        });
+
+        // Sorting functionality
+        const sortSelect = document.getElementById('sort-by');
+        const recordGrid = document.querySelector('.records-grid');
+        const recordCount = document.getElementById('record-count');
+        const clearFilter = document.getElementById('clear-filter');
+
+        function updateRecordCount() {
+            const records = document.querySelectorAll('.record-card');
+            recordCount.textContent = `${records.length} DVDs found`;
+        }
+
+        function resetSorting() {
+            const records = Array.from(document.querySelectorAll('.record-card'));
+            records.forEach((record, index) => {
+                record.style.order = index;
+                record.style.animation = 'none';
+                record.offsetHeight; // Trigger reflow
+                record.style.animation = `fadeIn 0.5s ease forwards ${index * 0.1}s`;
+            });
+            sortSelect.value = 'price-low'; // Reset to default sort
+            recordGrid.style.display = 'grid';
+            updateRecordCount();
+        }
+
+        function sortRecords() {
+            const records = Array.from(document.querySelectorAll('.record-card'));
+            const sortBy = sortSelect.value;
+
+            records.sort((a, b) => {
+                switch(sortBy) {
+                    case 'price-low':
+                        return parseFloat(a.querySelector('.record-price').textContent.replace(/[^0-9.-]+/g, '')) - 
+                               parseFloat(b.querySelector('.record-price').textContent.replace(/[^0-9.-]+/g, ''));
+                    case 'price-high':
+                        return parseFloat(b.querySelector('.record-price').textContent.replace(/[^0-9.-]+/g, '')) - 
+                               parseFloat(a.querySelector('.record-price').textContent.replace(/[^0-9.-]+/g, ''));
+                    case 'year-new':
+                        return parseInt(b.querySelector('.record-detail span').textContent.match(/\d{4}/)[0]) - 
+                               parseInt(a.querySelector('.record-detail span').textContent.match(/\d{4}/)[0]);
+                    case 'year-old':
+                        return parseInt(a.querySelector('.record-detail span').textContent.match(/\d{4}/)[0]) - 
+                               parseInt(b.querySelector('.record-detail span').textContent.match(/\d{4}/)[0]);
+                    case 'name-asc':
+                        return a.querySelector('.record-title').textContent.localeCompare(b.querySelector('.record-title').textContent);
+                    case 'name-desc':
+                        return b.querySelector('.record-title').textContent.localeCompare(a.querySelector('.record-title').textContent);
+                    case 'rating':
+                        return b.querySelector('.rating-stars').textContent.length - a.querySelector('.rating-stars').textContent.length;
+                    default:
+                        return 0;
+                }
+            });
+
+            // Animate the sorting
+            records.forEach((record, index) => {
+                record.style.order = index;
+                record.style.animation = 'none';
+                record.offsetHeight; // Trigger reflow
+                record.style.animation = `fadeIn 0.5s ease forwards ${index * 0.1}s`;
+            });
+
+            recordGrid.style.display = 'grid';
+            updateRecordCount();
+        }
+
+        // Add animation keyframes
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize sorting
+        document.addEventListener('DOMContentLoaded', () => {
+            updateRecordCount();
+            sortSelect.addEventListener('change', sortRecords);
+            clearFilter.addEventListener('click', resetSorting);
         });
     </script>
 </body>

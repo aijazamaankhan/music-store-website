@@ -9,6 +9,25 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
         integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --color-primary: #FF6F61;
+            --color-primary-light: #FF8F84;
+            --color-dark: #2C3E50;
+            --color-dark-light: #34495E;
+            --color-light: #FFFFFF;
+            --color-gray: #95A5A6;
+            --color-gray-light: #ECF0F1;
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
+        }
+
         .records-section {
             max-width: 1200px;
             margin: 2rem auto;
@@ -27,10 +46,10 @@
 
         .record-card {
             background: var(--color-light);
-            border-radius: 16px;
+            border-radius: var(--border-radius);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
             overflow: hidden;
-            transition: all 0.4s ease;
+            transition: var(--transition);
             border: none;
             display: flex;
             flex-direction: column;
@@ -49,7 +68,7 @@
             height: 280px;
             object-fit: cover;
             border-bottom: none;
-            transition: transform 0.4s ease;
+            transition: var(--transition);
         }
 
         .record-card:hover .record-image {
@@ -75,6 +94,26 @@
             line-height: 1.4;
         }
 
+        .record-details {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .record-detail {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 0.95rem;
+            color: var(--color-dark);
+        }
+
+        .record-detail i {
+            font-size: 1.2rem;
+            color: var(--color-primary);
+        }
+
         .record-price {
             font-size: 1.4rem;
             font-weight: 700;
@@ -83,6 +122,42 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+        }
+
+        .edition-select {
+            width: 100%;
+            padding: 0.6rem 1rem;
+            font-size: 0.9rem;
+            border: 2px solid #eee;
+            border-radius: var(--border-radius);
+            background: var(--color-light);
+            color: var(--color-dark-light);
+            cursor: pointer;
+            transition: var(--transition);
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.8rem center;
+            background-size: 0.8em;
+            padding-right: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .edition-select:hover {
+            border-color: var(--color-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 111, 97, 0.1);
+        }
+
+        .edition-select:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(255, 111, 97, 0.1);
+        }
+
+        .edition-select option {
+            padding: 1rem;
+            font-size: 0.9rem;
         }
 
         .record-rating {
@@ -126,11 +201,11 @@
             color: white;
             padding: 0.8rem 1.2rem;
             border: none;
-            border-radius: 10px;
+            border-radius: var(--border-radius);
             font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             flex: 1;
             text-align: center;
             text-decoration: none;
@@ -240,6 +315,170 @@
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
         }
 
+        /* Fancy Sort Controls */
+        .sort-controls {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin: 2rem auto;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            position: relative;
+            overflow: hidden;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .sort-controls::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-primary-light));
+        }
+
+        .sort-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .sort-label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sort-label i {
+            color: var(--color-primary);
+        }
+
+        .sort-select {
+            padding: 0.8rem 1.2rem;
+            border: 2px solid var(--color-gray-light);
+            border-radius: 10px;
+            font-size: 1rem;
+            color: var(--color-dark);
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 200px;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23FF6F61' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.2rem;
+            padding-right: 3rem;
+        }
+
+        .sort-select:hover {
+            border-color: var(--color-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 111, 97, 0.1);
+        }
+
+        .sort-select:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(255, 111, 97, 0.1);
+        }
+
+        .sort-select option {
+            padding: 1rem;
+        }
+
+        .sort-count {
+            font-size: 0.9rem;
+            color: var(--color-gray);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--color-gray-light);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .sort-count:hover {
+            background: var(--color-primary-light);
+            color: white;
+        }
+
+        .sort-count i {
+            color: var(--color-primary);
+        }
+
+        .sort-count:hover i {
+            color: white;
+        }
+
+        .clear-filter {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: var(--color-gray-light);
+            color: var(--color-dark);
+            border: none;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .clear-filter:hover {
+            background: var(--color-primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 111, 97, 0.2);
+        }
+
+        .clear-filter i {
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .clear-filter:hover i {
+            transform: rotate(180deg);
+        }
+
+        @media (max-width: 768px) {
+            .sort-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .sort-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .sort-select {
+                width: 100%;
+            }
+        }
+
         @media (max-width: 1200px) {
             .records-grid {
                 grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -335,132 +574,253 @@
         <div id="particles-js"></div>
         <div class="title-content">
             <h1 class="section-title">Audio CDs</h1>
-            <p class="section-description">Explore our collection of high-quality audio CDs, featuring the best in music and sound.</p>
+            <p class="section-description">Discover our extensive collection of audio CDs, from classic albums to the latest releases.</p>
         </div>
     </section>
+
+    <!-- SORT CONTROLS -->
+    <div class="sort-controls">
+        <div class="sort-group">
+            <label class="sort-label">
+                <i class="fas fa-sort"></i>
+                Sort by:
+            </label>
+            <select class="sort-select" id="sort-by">
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="year-new">Year: Newest First</option>
+                <option value="year-old">Year: Oldest First</option>
+                <option value="name-asc">Name: A to Z</option>
+                <option value="name-desc">Name: Z to A</option>
+                <option value="rating">Rating: Highest First</option>
+            </select>
+            <button class="clear-filter" id="clear-filter">
+                <i class="fas fa-times-circle"></i>
+                Clear Filter
+            </button>
+        </div>
+        <div class="sort-count">
+            <i class="fas fa-compact-disc"></i>
+            <span id="record-count">0 CDs found</span>
+        </div>
+    </div>
 
     <!-- RECORDS SECTION -->
     <section class="records-section">
         <h1 class="page-title">Audio CDs Collection</h1>
         <div class="records-grid">
-            <!-- Dil Chahta Hai -->
+            <!-- Dilwale Dulhania Le Jayenge -->
             <div class="record-card">
-                <img src="images/dil-chahta-hai.jpg" alt="Dil Chahta Hai" class="record-image">
+                <img src="images/ddlj.jpg" alt="Dilwale Dulhania Le Jayenge" class="record-image">
                 <div class="record-info">
-                    <h3 class="record-title">Dil Chahta Hai</h3>
+                    <h3 class="record-title">Dilwale Dulhania Le Jayenge</h3>
+                    <div class="record-details">
+                        <div class="record-detail">
+                            <i>🎬</i>
+                            <span>Movie Year: 1995</span>
+                        </div>
+                        <div class="record-detail">
+                            <i>💿</i>
+                            <span>1st Edition</span>
+                        </div>
+                    </div>
                     <div class="record-price">₹499</div>
+                    <select class="edition-select" data-original-price="499">
+                        <option value="499" selected>1st Edition - ₹499</option>
+                        <option value="599">2nd Edition - ₹599</option>
+                        <option value="699">3rd Edition - ₹699</option>
+                        <option value="799">4th Edition - ₹799</option>
+                    </select>
                     <div class="record-rating">
                         <div class="rating-stars">★★★★★</div>
-                        <div class="rating-count">(98 reviews)</div>
+                        <div class="rating-count">(156 reviews)</div>
                     </div>
                     <p class="record-description">
-                        Shankar-Ehsaan-Loy's modern classic featuring the iconic title track and other memorable songs.
+                        The iconic soundtrack featuring unforgettable songs by Lata Mangeshkar and Udit Narayan.
                     </p>
                     <div class="record-actions">
-                        <a href="view-product.html" class="btn-view-details"><i class="fas fa-info-circle"></i> View Details</a>
-                        <a href="#" class="btn-add-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                        <a href="view-product.html" class="btn-view-details">View Details</a>
+                        <a href="#" class="btn-add-cart">Add to Cart</a>
                     </div>
                 </div>
             </div>
 
-            <!-- Rock On -->
+            <!-- Kabhi Khushi Kabhie Gham -->
             <div class="record-card">
-                <img src="images/rock-on.jpg" alt="Rock On" class="record-image">
+                <img src="images/k3g.jpg" alt="Kabhi Khushi Kabhie Gham" class="record-image">
                 <div class="record-info">
-                    <h3 class="record-title">Rock On</h3>
-                    <div class="record-price">₹399</div>
-                    <div class="record-rating">
-                        <div class="rating-stars">★★★★☆</div>
-                        <div class="rating-count">(76 reviews)</div>
+                    <h3 class="record-title">Kabhi Khushi Kabhie Gham</h3>
+                    <div class="record-details">
+                        <div class="record-detail">
+                            <i>🎬</i>
+                            <span>Movie Year: 2001</span>
+                        </div>
+                        <div class="record-detail">
+                            <i>💿</i>
+                            <span>1st Edition</span>
+                        </div>
                     </div>
-                    <p class="record-description">
-                        Farhan Akhtar's rock band soundtrack featuring powerful vocals and energetic compositions.
-                    </p>
-                    <div class="record-actions">
-                        <a href="view-product.html" class="btn-view-details"><i class="fas fa-info-circle"></i> View Details</a>
-                        <a href="#" class="btn-add-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Zindagi Na Milegi Dobara -->
-            <div class="record-card">
-                <img src="images/zindagi-na-milegi-dobara.jpg" alt="Zindagi Na Milegi Dobara" class="record-image">
-                <div class="record-info">
-                    <h3 class="record-title">Zindagi Na Milegi Dobara</h3>
-                    <div class="record-price">₹449</div>
+                    <div class="record-price">₹549</div>
+                    <select class="edition-select" data-original-price="549">
+                        <option value="549" selected>1st Edition - ₹549</option>
+                        <option value="649">2nd Edition - ₹649</option>
+                        <option value="749">3rd Edition - ₹749</option>
+                        <option value="849">4th Edition - ₹849</option>
+                    </select>
                     <div class="record-rating">
                         <div class="rating-stars">★★★★★</div>
-                        <div class="rating-count">(112 reviews)</div>
+                        <div class="rating-count">(142 reviews)</div>
                     </div>
                     <p class="record-description">
-                        Shankar-Ehsaan-Loy's soulful soundtrack featuring Farhan Akhtar's poetic verses and memorable
-                        songs.
+                        The soulful soundtrack featuring melodious songs by Lata Mangeshkar and Udit Narayan.
                     </p>
                     <div class="record-actions">
-                        <a href="view-product.html" class="btn-view-details"><i class="fas fa-info-circle"></i> View Details</a>
-                        <a href="#" class="btn-add-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                        <a href="view-product.html" class="btn-view-details">View Details</a>
+                        <a href="#" class="btn-add-cart">Add to Cart</a>
                     </div>
                 </div>
             </div>
 
-            <!-- Jab We Met -->
+            <!-- Lagaan -->
             <div class="record-card">
-                <img src="images/jab-we-met.jpg" alt="Jab We Met" class="record-image">
+                <img src="images/lagaan.jpg" alt="Lagaan" class="record-image">
                 <div class="record-info">
-                    <h3 class="record-title">Jab We Met</h3>
-                    <div class="record-price">₹349</div>
+                    <h3 class="record-title">Lagaan</h3>
+                    <div class="record-details">
+                        <div class="record-detail">
+                            <i>🎬</i>
+                            <span>Movie Year: 2001</span>
+                        </div>
+                        <div class="record-detail">
+                            <i>💿</i>
+                            <span>1st Edition</span>
+                        </div>
+                    </div>
+                    <div class="record-price">₹599</div>
+                    <select class="edition-select" data-original-price="599">
+                        <option value="599" selected>1st Edition - ₹599</option>
+                        <option value="699">2nd Edition - ₹699</option>
+                        <option value="799">3rd Edition - ₹799</option>
+                        <option value="899">4th Edition - ₹899</option>
+                    </select>
                     <div class="record-rating">
                         <div class="rating-stars">★★★★★</div>
-                        <div class="rating-count">(89 reviews)</div>
+                        <div class="rating-count">(168 reviews)</div>
                     </div>
                     <p class="record-description">
-                        Pritam's romantic soundtrack featuring the iconic songs that defined a generation.
+                        The award-winning soundtrack featuring soulful melodies by A.R. Rahman.
                     </p>
                     <div class="record-actions">
-                        <a href="view-product.html" class="btn-view-details"><i class="fas fa-info-circle"></i> View Details</a>
-                        <a href="#" class="btn-add-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                        <a href="view-product.html" class="btn-view-details">View Details</a>
+                        <a href="#" class="btn-add-cart">Add to Cart</a>
                     </div>
                 </div>
             </div>
 
-            <!-- Wake Up Sid -->
+            <!-- Devdas -->
             <div class="record-card">
-                <img src="images/wake-up-sid.jpg" alt="Wake Up Sid" class="record-image">
+                <img src="images/devdas.jpg" alt="Devdas" class="record-image">
                 <div class="record-info">
-                    <h3 class="record-title">Wake Up Sid</h3>
-                    <div class="record-price">₹399</div>
-                    <div class="record-rating">
-                        <div class="rating-stars">★★★★☆</div>
-                        <div class="rating-count">(76 reviews)</div>
+                    <h3 class="record-title">Devdas</h3>
+                    <div class="record-details">
+                        <div class="record-detail">
+                            <i>🎬</i>
+                            <span>Movie Year: 2002</span>
+                        </div>
+                        <div class="record-detail">
+                            <i>💿</i>
+                            <span>1st Edition</span>
+                        </div>
                     </div>
-                    <p class="record-description">
-                        Shankar-Ehsaan-Loy's youthful soundtrack featuring the hit song "Iktara" and other memorable
-                        tracks.
-                    </p>
-                    <div class="record-actions">
-                        <a href="view-product.html" class="btn-view-details"><i class="fas fa-info-circle"></i> View Details</a>
-                        <a href="#" class="btn-add-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Yeh Jawaani Hai Deewani -->
-            <div class="record-card">
-                <img src="images/yeh-jawaani-hai-deewani.jpg" alt="Yeh Jawaani Hai Deewani" class="record-image">
-                <div class="record-info">
-                    <h3 class="record-title">Yeh Jawaani Hai Deewani</h3>
-                    <div class="record-price">₹449</div>
+                    <div class="record-price">₹549</div>
+                    <select class="edition-select" data-original-price="549">
+                        <option value="549" selected>1st Edition - ₹549</option>
+                        <option value="649">2nd Edition - ₹649</option>
+                        <option value="749">3rd Edition - ₹749</option>
+                        <option value="849">4th Edition - ₹849</option>
+                    </select>
                     <div class="record-rating">
                         <div class="rating-stars">★★★★★</div>
-                        <div class="rating-count">(102 reviews)</div>
+                        <div class="rating-count">(145 reviews)</div>
                     </div>
                     <p class="record-description">
-                        Pritam's energetic soundtrack featuring chart-topping songs and soulful melodies.
+                        The melodious soundtrack featuring timeless songs by Shreya Ghoshal and Udit Narayan.
                     </p>
                     <div class="record-actions">
-                        <a href="view-product.html" class="btn-view-details"><i class="fas fa-info-circle"></i> View Details</a>
-                        <a href="#" class="btn-add-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                        <a href="view-product.html" class="btn-view-details">View Details</a>
+                        <a href="#" class="btn-add-cart">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Swades -->
+            <div class="record-card">
+                <img src="images/swades.jpg" alt="Swades" class="record-image">
+                <div class="record-info">
+                    <h3 class="record-title">Swades</h3>
+                    <div class="record-details">
+                        <div class="record-detail">
+                            <i>🎬</i>
+                            <span>Movie Year: 2004</span>
+                        </div>
+                        <div class="record-detail">
+                            <i>💿</i>
+                            <span>1st Edition</span>
+                        </div>
+                    </div>
+                    <div class="record-price">₹499</div>
+                    <select class="edition-select" data-original-price="499">
+                        <option value="499" selected>1st Edition - ₹499</option>
+                        <option value="599">2nd Edition - ₹599</option>
+                        <option value="699">3rd Edition - ₹699</option>
+                        <option value="799">4th Edition - ₹799</option>
+                    </select>
+                    <div class="record-rating">
+                        <div class="rating-stars">★★★★★</div>
+                        <div class="rating-count">(134 reviews)</div>
+                    </div>
+                    <p class="record-description">
+                        The soulful soundtrack featuring melodious songs by A.R. Rahman and Udit Narayan.
+                    </p>
+                    <div class="record-actions">
+                        <a href="view-product.html" class="btn-view-details">View Details</a>
+                        <a href="#" class="btn-add-cart">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rang De Basanti -->
+            <div class="record-card">
+                <img src="images/rang-de-basanti.jpg" alt="Rang De Basanti" class="record-image">
+                <div class="record-info">
+                    <h3 class="record-title">Rang De Basanti</h3>
+                    <div class="record-details">
+                        <div class="record-detail">
+                            <i>🎬</i>
+                            <span>Movie Year: 2006</span>
+                        </div>
+                        <div class="record-detail">
+                            <i>💿</i>
+                            <span>1st Edition</span>
+                        </div>
+                    </div>
+                    <div class="record-price">₹549</div>
+                    <select class="edition-select" data-original-price="549">
+                        <option value="549" selected>1st Edition - ₹549</option>
+                        <option value="649">2nd Edition - ₹649</option>
+                        <option value="749">3rd Edition - ₹749</option>
+                        <option value="849">4th Edition - ₹849</option>
+                    </select>
+                    <div class="record-rating">
+                        <div class="rating-stars">★★★★★</div>
+                        <div class="rating-count">(128 reviews)</div>
+                    </div>
+                    <p class="record-description">
+                        The powerful soundtrack featuring energetic songs by A.R. Rahman and Daler Mehndi.
+                    </p>
+                    <div class="record-actions">
+                        <a href="view-product.html" class="btn-view-details">View Details</a>
+                        <a href="#" class="btn-add-cart">Add to Cart</a>
                     </div>
                 </div>
             </div>
@@ -636,6 +996,94 @@
                     updatePrices(this.value);
                 });
             }
+        });
+
+        // Sorting functionality
+        const sortSelect = document.getElementById('sort-by');
+        const recordGrid = document.querySelector('.records-grid');
+        const recordCount = document.getElementById('record-count');
+        const clearFilter = document.getElementById('clear-filter');
+
+        function updateRecordCount() {
+            const records = document.querySelectorAll('.record-card');
+            recordCount.textContent = `${records.length} CDs found`;
+        }
+
+        function resetSorting() {
+            const records = Array.from(document.querySelectorAll('.record-card'));
+            records.forEach((record, index) => {
+                record.style.order = index;
+                record.style.animation = 'none';
+                record.offsetHeight; // Trigger reflow
+                record.style.animation = `fadeIn 0.5s ease forwards ${index * 0.1}s`;
+            });
+            sortSelect.value = 'price-low'; // Reset to default sort
+            recordGrid.style.display = 'grid';
+            updateRecordCount();
+        }
+
+        function sortRecords() {
+            const records = Array.from(document.querySelectorAll('.record-card'));
+            const sortBy = sortSelect.value;
+
+            records.sort((a, b) => {
+                switch(sortBy) {
+                    case 'price-low':
+                        return parseFloat(a.querySelector('.record-price').textContent.replace(/[^0-9.-]+/g, '')) - 
+                               parseFloat(b.querySelector('.record-price').textContent.replace(/[^0-9.-]+/g, ''));
+                    case 'price-high':
+                        return parseFloat(b.querySelector('.record-price').textContent.replace(/[^0-9.-]+/g, '')) - 
+                               parseFloat(a.querySelector('.record-price').textContent.replace(/[^0-9.-]+/g, ''));
+                    case 'year-new':
+                        return parseInt(b.querySelector('.record-detail span').textContent.match(/\d{4}/)[0]) - 
+                               parseInt(a.querySelector('.record-detail span').textContent.match(/\d{4}/)[0]);
+                    case 'year-old':
+                        return parseInt(a.querySelector('.record-detail span').textContent.match(/\d{4}/)[0]) - 
+                               parseInt(b.querySelector('.record-detail span').textContent.match(/\d{4}/)[0]);
+                    case 'name-asc':
+                        return a.querySelector('.record-title').textContent.localeCompare(b.querySelector('.record-title').textContent);
+                    case 'name-desc':
+                        return b.querySelector('.record-title').textContent.localeCompare(a.querySelector('.record-title').textContent);
+                    case 'rating':
+                        return b.querySelector('.rating-stars').textContent.length - a.querySelector('.rating-stars').textContent.length;
+                    default:
+                        return 0;
+                }
+            });
+
+            // Animate the sorting
+            records.forEach((record, index) => {
+                record.style.order = index;
+                record.style.animation = 'none';
+                record.offsetHeight; // Trigger reflow
+                record.style.animation = `fadeIn 0.5s ease forwards ${index * 0.1}s`;
+            });
+
+            recordGrid.style.display = 'grid';
+            updateRecordCount();
+        }
+
+        // Add animation keyframes
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize sorting
+        document.addEventListener('DOMContentLoaded', () => {
+            updateRecordCount();
+            sortSelect.addEventListener('change', sortRecords);
+            clearFilter.addEventListener('click', resetSorting);
         });
     </script>
 </body>

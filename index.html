@@ -482,7 +482,6 @@
 </head>
 
 <body>
-
     <!-- HEADER -->
     <header class="main-header">
         <div class="logo-currency">
@@ -514,33 +513,17 @@
                     <li><a href="about.html">About Us</a></li>
                     <li><a href="blog.html">Blog</a></li>
                     <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="login.html">Login / Register</a></li>
                 </ul>
                 <div class="menu-toggle" id="mobile-menu">&#9776;</div>
             </nav>
             <div class="search-bar">
                 <input type="text" placeholder="Search products..." />
             </div>
-            <div class="user-actions">
-                <a href="cart.html" class="cart-icon" title="View Cart">
-                    <i class="fas fa-shopping-basket"></i>
-                    <span class="cart-count">0</span>
-                </a>
-                <div class="user-profile" style="display: none;">
-                    <div class="profile-icon">
-                        <i class="fas fa-user-circle"></i>
-                        <span class="user-name"></span>
-                    </div>
-                    <div class="profile-dropdown">
-                        <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
-                        <a href="orders.html"><i class="fas fa-box"></i> Orders</a>
-                        <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                    </div>
-                </div>
-                <div class="auth-buttons">
-                    <a href="login.html" class="login-btn">Login</a>
-                    <a href="signup.html" class="signup-btn">Sign Up</a>
-                </div>
-            </div>
+            <a href="cart.html" class="cart-icon" title="View Cart">
+                <i class="fas fa-shopping-basket"></i>
+                <span class="cart-count">0</span>
+            </a>
         </div>
     </header>
 
@@ -622,25 +605,25 @@
                         <img src="images/cd.jpg" alt="Audio CD" />
                         <h3>Audio CDs</h3>
                         <div class="price-tag">₹499</div>
-                        <button class="btn-view">View Products</button>
+                        <a href="audio-cds.html"><button class="btn-view">View Products</button></a>
                     </div>
                     <div class="feature-card" data-price="699">
                         <img src="images/dvd.jpg" alt="DVD" />
                         <h3>DVDs</h3>
                         <div class="price-tag">₹699</div>
-                        <button class="btn-view">View Products</button>
+                        <a href="dvds.html"><button class="btn-view">View Products</button></a>
                     </div>
                     <div class="feature-card" data-price="999">
                         <img src="images/blu-ray.jpg" alt="Blu-ray" />
                         <h3>Blu-rays</h3>
                         <div class="price-tag">₹999</div>
-                        <button class="btn-view">View Products</button>
+                        <a href="blu-ray.html"><button class="btn-view">View Products</button></a>
                     </div>
                     <div class="feature-card" data-price="4999">
                         <img src="images/amplifier.jpg" alt="Amplifier" />
                         <h3>Amplifiers</h3>
                         <div class="price-tag">₹4999</div>
-                        <button class="btn-view">View Products</button>
+                        <a href="amplifiers.html"><button class="btn-view">View Products</button></a>
                     </div>
                 </div>
                 <button class="carousel-btn next">&#10095;</button>
@@ -728,6 +711,65 @@
     <script src="script.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
+        // Currency conversion rates (as of a sample date)
+        const exchangeRates = {
+            INR: 1,
+            USD: 0.012,  // 1 INR = 0.012 USD
+            EUR: 0.011,  // 1 INR = 0.011 EUR
+            GBP: 0.0095  // 1 INR = 0.0095 GBP
+        };
+
+        // Currency symbols
+        const currencySymbols = {
+            INR: '₹',
+            USD: '$',
+            EUR: '€',
+            GBP: '£'
+        };
+
+        // Function to format price based on currency
+        function formatPrice(price, currency) {
+            const convertedPrice = price * exchangeRates[currency];
+            return `${currencySymbols[currency]}${convertedPrice.toFixed(2)}`;
+        }
+
+        // Function to update all prices on the page
+        function updatePrices(currency) {
+            // Update featured products prices
+            document.querySelectorAll('.feature-carousel .feature-card').forEach(card => {
+                const price = parseFloat(card.dataset.price);
+                const priceTag = card.querySelector('.price-tag');
+                if (priceTag) {
+                    priceTag.textContent = formatPrice(price, currency);
+                }
+            });
+
+            // Update upcoming products prices
+            document.querySelectorAll('.upcoming-carousel .feature-card').forEach(card => {
+                const price = parseFloat(card.dataset.price);
+                const priceTag = card.querySelector('.price-tag');
+                if (priceTag) {
+                    priceTag.textContent = formatPrice(price, currency);
+                }
+            });
+        }
+
+        // Add event listener for currency change
+        document.getElementById('currency').addEventListener('change', function(e) {
+            const selectedCurrency = e.target.value;
+            updatePrices(selectedCurrency);
+            
+            // Store the selected currency in localStorage
+            localStorage.setItem('selectedCurrency', selectedCurrency);
+        });
+
+        // Initialize prices with stored currency or default to INR
+        document.addEventListener('DOMContentLoaded', function() {
+            const storedCurrency = localStorage.getItem('selectedCurrency') || 'INR';
+            document.getElementById('currency').value = storedCurrency;
+            updatePrices(storedCurrency);
+        });
+
         // Carousel functionality
         document.addEventListener('DOMContentLoaded', function() {
             // Featured Products Carousel
