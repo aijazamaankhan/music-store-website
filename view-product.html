@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Product - MyStore</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .product-section {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3rem;
+            align-items: flex-start;
+        }
+
+        .product-images {
+            flex: 1 1 400px;
+            min-width: 280px;
+            position: relative;
+        }
+
+        .main-image {
+            width: 100%;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1rem;
+        }
+
+        .thumbnail-container {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all var(--transition);
+        }
+
+        .thumbnail:hover {
+            border-color: var(--color-primary);
+            transform: translateY(-2px);
+        }
+
+        .thumbnail.active {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 10px var(--color-primary-light);
+        }
+
+        .product-info {
+            flex: 1 1 400px;
+            min-width: 280px;
+        }
+
+        .product-title {
+            font-size: 2.2rem;
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .product-description {
+            font-size: 1.1rem;
+            color: var(--color-dark-light);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .product-details {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .product-detail {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--color-gray);
+            font-size: 1rem;
+            background: var(--color-light);
+            padding: 0.8rem 1.2rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .product-detail i {
+            color: var(--color-primary);
+            font-size: 1.2rem;
+        }
+
+        .product-detail span {
+            font-weight: 500;
+        }
+
+        .edition-switcher {
+            margin-bottom: 2rem;
+        }
+
+        .edition-switcher label {
+            display: block;
+            font-weight: 600;
+            color: var(--color-dark-light);
+            margin-bottom: 0.8rem;
+        }
+
+        .edition-select {
+            width: 100%;
+            max-width: 300px;
+            padding: 0.8rem 1.2rem;
+            font-size: 1rem;
+            border: 2px solid #eee;
+            border-radius: var(--border-radius);
+            background: var(--color-light);
+            color: var(--color-dark-light);
+            cursor: pointer;
+            transition: all var(--transition);
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1em;
+            padding-right: 2.5rem;
+        }
+
+        .edition-select:hover {
+            border-color: var(--color-primary-light);
+        }
+
+        .edition-select:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(255, 111, 97, 0.1);
+        }
+
+        .edition-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+        }
+
+        .edition-option i {
+            font-size: 1.1rem;
+            color: var(--color-primary);
+        }
+
+        .edition-option .edition-price {
+            margin-left: auto;
+            font-weight: 600;
+        }
+
+        .product-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            margin-bottom: 2rem;
+        }
+
+        .quantity-selector {
+            margin-bottom: 2rem;
+            display: inline-block;
+        }
+
+        .quantity-selector label {
+            display: block;
+            font-weight: 600;
+            color: var(--color-dark-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .quantity-selector input {
+            width: 100px;
+            height: 45px;
+            padding: 0.8rem;
+            font-size: 1.1rem;
+            border: 2px solid #eee;
+            border-radius: var(--border-radius);
+            transition: all var(--transition);
+        }
+
+        .quantity-selector input:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(255, 111, 97, 0.1);
+            outline: none;
+        }
+
+        .add-to-cart {
+            background: var(--color-primary);
+            color: white;
+            height: 45px;
+            padding: 0 2rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition);
+            box-shadow: 0 6px 15px rgba(255, 111, 97, 0.3);
+            display: inline-block;
+            vertical-align: bottom;
+            margin-left: 1rem;
+        }
+
+        .add-to-cart:hover {
+            background: var(--color-primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 111, 97, 0.4);
+        }
+
+        .purchase-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .product-section {
+                padding: 1rem;
+                gap: 2rem;
+            }
+
+            .product-title {
+                font-size: 1.8rem;
+            }
+
+            .product-price {
+                font-size: 1.6rem;
+            }
+        }
+
+        .reviews-section {
+            max-width: 1200px;
+            margin: 0 auto 4rem auto;
+            padding: 2rem;
+        }
+
+        .reviews-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .reviews-title {
+            font-size: 1.8rem;
+            color: var(--color-primary);
+            font-weight: 700;
+        }
+
+        .review-stats {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .average-rating {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        .rating-stars {
+            color: #ffd700;
+            font-size: 1.2rem;
+        }
+
+        .total-reviews {
+            color: var(--color-gray);
+            font-size: 0.9rem;
+        }
+
+        .review-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .review-btn {
+            background: var(--color-primary);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .review-btn:hover {
+            background: var(--color-primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 111, 97, 0.3);
+        }
+
+        .review-btn i {
+            font-size: 1.2rem;
+        }
+
+        .reviews-list {
+            margin-top: 2rem;
+        }
+
+        .review-card {
+            background: var(--color-light);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .reviewer-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .reviewer-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--color-primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .reviewer-name {
+            font-weight: 600;
+            color: var(--color-dark);
+        }
+
+        .review-date {
+            color: var(--color-gray);
+            font-size: 0.9rem;
+        }
+
+        .review-content {
+            color: var(--color-dark-light);
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .reviews-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .review-actions {
+                justify-content: center;
+            }
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--color-primary);
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            padding: 0.8rem 1.2rem;
+            border-radius: 12px;
+            background: var(--color-light);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            z-index: 10;
+        }
+
+        .back-button:hover {
+            background: var(--color-primary-light);
+            color: white;
+            transform: translateX(-5px);
+            box-shadow: 0 4px 12px rgba(255, 111, 97, 0.2);
+        }
+
+        .back-button::before {
+            content: "←";
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="main-header">
+        <div class="logo-currency">
+            <div class="logo">MyStore</div>
+            <div class="currency-switcher">
+                <select id="currency">
+                    <option value="INR" selected>₹ INR</option>
+                    <option value="USD">$ USD</option>
+                    <option value="EUR">€ EUR</option>
+                    <option value="GBP">£ GBP</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <nav id="navbar">
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-trigger">Shop</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Vinyl Records</a></li>
+                            <li><a href="#">DVDs</a></li>
+                            <li><a href="#">Audio CDs</a></li>
+                            <li><a href="#">Blu-ray</a></li>
+                            <li><a href="#">Amplifiers</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+                <div class="menu-toggle" id="mobile-menu">&#9776;</div>
+            </nav>
+            <div class="search-bar">
+                <input type="text" placeholder="Search products..." />
+            </div>
+            <a href="cart.html" class="cart-icon" title="View Cart">
+                <i class="fas fa-shopping-basket"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- PRODUCT SECTION -->
+    <section class="product-section">
+        <div class="product-images">
+            <a href="vinyl-records.html" class="back-button">Back to Vinyl Records</a>
+            <img id="mainImage" src="images/vinyl.jpg" alt="Vinyl Record" class="main-image" />
+            <div class="thumbnail-container">
+                <img src="images/vinyl.jpg" onclick="changeImage(this)" class="thumbnail active" alt="Thumbnail 1" />
+                <img src="images/vinyl-2.jpg" onclick="changeImage(this)" class="thumbnail" alt="Thumbnail 2" />
+                <img src="images/vinyl-3.jpg" onclick="changeImage(this)" class="thumbnail" alt="Thumbnail 3" />
+                <img src="images/vinyl-4.jpg" onclick="changeImage(this)" class="thumbnail" alt="Thumbnail 4" />
+            </div>
+        </div>
+
+        <div class="product-info">
+            <h1 class="product-title">Khilona</h1>
+            <div class="product-details">
+                <div class="product-detail">
+                    <i>🎬</i>
+                    <span>Movie Year: 1960</span>
+                </div>
+                <div class="product-detail">
+                    <i>💿</i>
+                    <span>1st Edition</span>
+                </div>
+            </div>
+            <div class="edition-switcher">
+                <label for="edition-select">Select Edition:</label>
+                <select id="edition-select" class="edition-select">
+                    <option value="899" selected>
+                        <div class="edition-option">
+                            <i>💿</i>
+                            <span>1st Edition</span>
+                            <span class="edition-price">₹899</span>
+                        </div>
+                    </option>
+                    <option value="1299">
+                        <div class="edition-option">
+                            <i>💿</i>
+                            <span>2nd Edition</span>
+                            <span class="edition-price">₹1,299</span>
+                        </div>
+                    </option>
+                    <option value="1499">
+                        <div class="edition-option">
+                            <i>💿</i>
+                            <span>3rd Edition</span>
+                            <span class="edition-price">₹1,499</span>
+                        </div>
+                    </option>
+                    <option value="1699">
+                        <div class="edition-option">
+                            <i>💿</i>
+                            <span>4th Edition</span>
+                            <span class="edition-price">₹1,699</span>
+                        </div>
+                    </option>
+                </select>
+            </div>
+            <p class="product-description">
+                Relive the magic of analog sound with this beautifully pressed vinyl record. Perfect for collectors and music lovers looking to enhance their collection. Experience the warm, rich sound that only vinyl can provide.
+            </p>
+            <div class="product-price">₹899</div>
+            <div class="purchase-actions">
+                <div class="quantity-selector">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" id="quantity" value="1" min="1" />
+                </div>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- REVIEWS SECTION -->
+    <section class="reviews-section">
+        <div class="reviews-header">
+            <div class="review-stats">
+                <div class="average-rating">4.8</div>
+                <div>
+                    <div class="rating-stars">★★★★★</div>
+                    <div class="total-reviews">Based on 128 reviews</div>
+                </div>
+            </div>
+            <div class="review-actions">
+                <button class="review-btn">
+                    <i>✍️</i>
+                    Write a Review
+                </button>
+                <button class="review-btn" style="background: var(--color-dark-light);">
+                    <i>👁️</i>
+                    View All Reviews
+                </button>
+            </div>
+        </div>
+
+        <div class="reviews-list">
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="reviewer-info">
+                        <div class="reviewer-avatar">JD</div>
+                        <div>
+                            <div class="reviewer-name">John Doe</div>
+                            <div class="rating-stars">★★★★★</div>
+                        </div>
+                    </div>
+                    <div class="review-date">2 days ago</div>
+                </div>
+                <div class="review-content">
+                    Amazing quality! The vinyl record sounds incredible and the packaging was perfect. Will definitely buy again.
+                </div>
+            </div>
+
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="reviewer-info">
+                        <div class="reviewer-avatar">AS</div>
+                        <div>
+                            <div class="reviewer-name">Alice Smith</div>
+                            <div class="rating-stars">★★★★☆</div>
+                        </div>
+                    </div>
+                    <div class="review-date">1 week ago</div>
+                </div>
+                <div class="review-content">
+                    Great product, fast shipping. The sound quality is excellent, though the sleeve could be a bit sturdier.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-section about">
+                <h3>About MyStore</h3>
+                <p>Your go-to place for vinyl records, music gear, and audio accessories.</p>
+            </div>
+            <div class="footer-section links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Shop</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact">
+                <h3>Contact Us</h3>
+                <p>Email: support@mystore.com</p>
+                <p>Phone: +1 (555) 123-4567</p>
+                <p>Address: 123 Music Ave, Melody City</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2025 MyStore. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        function changeImage(el) {
+            // Update main image
+            document.getElementById("mainImage").src = el.src;
+            
+            // Update active thumbnail
+            document.querySelectorAll('.thumbnail').forEach(thumb => {
+                thumb.classList.remove('active');
+            });
+            el.classList.add('active');
+        }
+
+        // Add review button functionality
+        document.querySelector('.review-btn').addEventListener('click', function() {
+            // Add your review submission logic here
+            alert('Review submission form will be implemented here');
+        });
+
+        // Currency conversion rates (example rates)
+        const exchangeRates = {
+            'INR': 1,
+            'USD': 0.012,
+            'EUR': 0.011,
+            'GBP': 0.0095
+        };
+
+        // Currency symbols
+        const currencySymbols = {
+            'INR': '₹',
+            'USD': '$',
+            'EUR': '€',
+            'GBP': '£'
+        };
+
+        // Function to update prices based on selected currency
+        function updatePrices(currency) {
+            const priceElements = document.querySelectorAll('.product-price, .record-price');
+            priceElements.forEach(element => {
+                // Get the original price in INR (remove the currency symbol and convert to number)
+                const originalPrice = parseFloat(element.getAttribute('data-original-price') || element.textContent.replace(/[₹$€£]/, '').replace(',', ''));
+                
+                // Convert to selected currency
+                const convertedPrice = originalPrice * exchangeRates[currency];
+                
+                // Format the price with 2 decimal places and appropriate symbol
+                const formattedPrice = `${currencySymbols[currency]}${convertedPrice.toFixed(2)}`;
+                
+                // Update the display
+                element.textContent = formattedPrice;
+            });
+        }
+
+        // Store original prices when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const priceElements = document.querySelectorAll('.product-price, .record-price');
+            priceElements.forEach(element => {
+                const originalPrice = element.textContent.replace(/[₹$€£]/, '').replace(',', '');
+                element.setAttribute('data-original-price', originalPrice);
+            });
+
+            // Add event listener to currency selector
+            const currencySelect = document.getElementById('currency');
+            if (currencySelect) {
+                currencySelect.addEventListener('change', function() {
+                    updatePrices(this.value);
+                });
+            }
+        });
+
+        // Edition switcher functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const editionSelect = document.getElementById('edition-select');
+            const productPrice = document.querySelector('.product-price');
+            const editionDetail = document.querySelector('.product-detail:last-child span');
+
+            editionSelect.addEventListener('change', function() {
+                // Update price
+                const newPrice = this.value;
+                productPrice.textContent = `₹${newPrice}`;
+                productPrice.setAttribute('data-original-price', newPrice);
+
+                // Update edition detail
+                const selectedOption = this.options[this.selectedIndex];
+                const editionText = selectedOption.textContent.split('₹')[0].trim();
+                editionDetail.textContent = editionText;
+
+                // Update currency if needed
+                const currencySelect = document.getElementById('currency');
+                if (currencySelect) {
+                    updatePrices(currencySelect.value);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

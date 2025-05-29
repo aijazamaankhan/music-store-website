@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - EP & LP Vinyl Records</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .cart-section {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .cart-header {
+            margin-bottom: 2rem;
+        }
+
+        .cart-title {
+            font-size: 2.2rem;
+            color: var(--color-primary);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .cart-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        .cart-items {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .cart-item {
+            display: grid;
+            grid-template-columns: 100px 2fr 1fr 1fr auto;
+            gap: 1.5rem;
+            align-items: center;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .item-details h3 {
+            font-size: 1.2rem;
+            color: var(--color-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .item-details p {
+            color: var(--color-gray);
+            font-size: 0.9rem;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            border: 1px solid var(--color-gray-light);
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .quantity-btn:hover {
+            background: var(--color-light);
+        }
+
+        .quantity-input {
+            width: 50px;
+            height: 30px;
+            text-align: center;
+            border: 1px solid var(--color-gray-light);
+            border-radius: 5px;
+        }
+
+        .item-price {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--color-dark);
+        }
+
+        .remove-item {
+            color: var(--color-gray);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .remove-item:hover {
+            color: var(--color-primary);
+        }
+
+        .cart-summary {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            height: fit-content;
+        }
+
+        .summary-title {
+            font-size: 1.5rem;
+            color: var(--color-dark);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            color: var(--color-dark-light);
+        }
+
+        .summary-row.total {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--color-dark);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            padding-top: 1rem;
+            margin-top: 1rem;
+        }
+
+        .checkout-btn {
+            background: var(--color-primary);
+            color: white;
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1.5rem;
+        }
+
+        .checkout-btn:hover {
+            background: var(--color-primary-light);
+            transform: translateY(-2px);
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .empty-cart i {
+            font-size: 4rem;
+            color: var(--color-gray-light);
+            margin-bottom: 1rem;
+        }
+
+        .empty-cart h2 {
+            font-size: 1.8rem;
+            color: var(--color-dark);
+            margin-bottom: 1rem;
+        }
+
+        .empty-cart p {
+            color: var(--color-gray);
+            margin-bottom: 2rem;
+        }
+
+        .continue-shopping {
+            display: inline-block;
+            background: var(--color-primary);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .continue-shopping:hover {
+            background: var(--color-primary-light);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 992px) {
+            .cart-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .cart-item {
+                grid-template-columns: 80px 1fr;
+                gap: 1rem;
+            }
+
+            .item-details {
+                grid-column: 2;
+            }
+
+            .quantity-controls {
+                grid-column: 2;
+                justify-content: flex-start;
+            }
+
+            .item-price {
+                grid-column: 2;
+            }
+
+            .remove-item {
+                grid-column: 2;
+                justify-self: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="main-header">
+        <div class="logo-currency">
+            <div class="logo">EP & LP Vinyl Records</div>
+            <div class="currency-switcher">
+                <select id="currency">
+                    <option value="INR" selected>₹ INR</option>
+                    <option value="USD">$ USD</option>
+                    <option value="EUR">€ EUR</option>
+                    <option value="GBP">£ GBP</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <nav id="navbar">
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li class="dropdown">
+                        <a href="shop.html" class="dropdown-trigger">Shop</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="vinyl-records.html">Vinyl Records</a></li>
+                            <li><a href="dvds.html">DVDs</a></li>
+                            <li><a href="audio-cds.html">Audio CDs</a></li>
+                            <li><a href="blu-ray.html">Blu-ray</a></li>
+                            <li><a href="amplifiers.html">Amplifiers</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="login.html">Login / Register</a></li>
+                </ul>
+                <div class="menu-toggle" id="mobile-menu">&#9776;</div>
+            </nav>
+            <div class="search-bar">
+                <input type="text" placeholder="Search products..." />
+            </div>
+            <a href="cart.html" class="cart-icon" title="View Cart">
+                <i class="fas fa-shopping-basket"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- CART SECTION -->
+    <section class="cart-section">
+        <div class="cart-header">
+            <h1 class="cart-title">Shopping Cart</h1>
+        </div>
+
+        <div class="cart-container">
+            <div class="cart-items">
+                <!-- Sample Cart Items -->
+                <div class="cart-item">
+                    <img src="images/mughal-e-azam.jpg" alt="Mughal-e-Azam" class="item-image">
+                    <div class="item-details">
+                        <h3>Mughal-e-Azam</h3>
+                        <p>Vinyl Record</p>
+                    </div>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn minus">-</button>
+                        <input type="number" class="quantity-input" value="1" min="1">
+                        <button class="quantity-btn plus">+</button>
+                    </div>
+                    <div class="item-price">₹1,499</div>
+                    <div class="remove-item">
+                        <i class="fas fa-trash"></i>
+                    </div>
+                </div>
+
+                <div class="cart-item">
+                    <img src="images/sholay.jpg" alt="Sholay" class="item-image">
+                    <div class="item-details">
+                        <h3>Sholay</h3>
+                        <p>Vinyl Record</p>
+                    </div>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn minus">-</button>
+                        <input type="number" class="quantity-input" value="1" min="1">
+                        <button class="quantity-btn plus">+</button>
+                    </div>
+                    <div class="item-price">₹1,299</div>
+                    <div class="remove-item">
+                        <i class="fas fa-trash"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cart-summary">
+                <h2 class="summary-title">Order Summary</h2>
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span>₹2,798</span>
+                </div>
+                <div class="summary-row">
+                    <span>Shipping</span>
+                    <span>₹100</span>
+                </div>
+                <div class="summary-row">
+                    <span>Tax</span>
+                    <span>₹279.80</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total</span>
+                    <span>₹3,177.80</span>
+                </div>
+                <button class="checkout-btn">Proceed to Checkout</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-section about">
+                <h3>About MyStore</h3>
+                <p>Your go-to place for vinyl records, music gear, and audio accessories.</p>
+            </div>
+            <div class="footer-section links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact">
+                <h3>Contact Us</h3>
+                <p>Email: support@mystore.com</p>
+                <p>Phone: +1 (555) 123-4567</p>
+                <p>Address: 123 Music Ave, Melody City</p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Load cart items from localStorage
+        function loadCartItems() {
+            const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            const cartItemsContainer = document.querySelector('.cart-items');
+            
+            if (cartItems.length === 0) {
+                cartItemsContainer.innerHTML = `
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h2>Your cart is empty</h2>
+                        <p>Looks like you haven't added any items to your cart yet.</p>
+                        <a href="shop.html" class="continue-shopping">Continue Shopping</a>
+                    </div>
+                `;
+                document.querySelector('.cart-summary').style.display = 'none';
+                return;
+            }
+
+            cartItemsContainer.innerHTML = cartItems.map(item => `
+                <div class="cart-item" data-product-id="${item.id}">
+                    <img src="${item.image}" alt="${item.name}" class="item-image">
+                    <div class="item-details">
+                        <h3>${item.name}</h3>
+                        <p>${item.type}</p>
+                    </div>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn minus">-</button>
+                        <input type="number" class="quantity-input" value="${item.quantity}" min="1">
+                        <button class="quantity-btn plus">+</button>
+                    </div>
+                    <div class="item-price" data-original-price="${item.price}">₹${item.price}</div>
+                    <div class="remove-item">
+                        <i class="fas fa-trash"></i>
+                    </div>
+                </div>
+            `).join('');
+
+            // Reattach event listeners
+            attachEventListeners();
+            updateCart();
+        }
+
+        // Attach event listeners to cart items
+        function attachEventListeners() {
+            // Quantity controls
+            document.querySelectorAll('.quantity-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const input = this.parentElement.querySelector('.quantity-input');
+                    const currentValue = parseInt(input.value);
+                    
+                    if (this.classList.contains('plus')) {
+                        input.value = currentValue + 1;
+                    } else if (this.classList.contains('minus') && currentValue > 1) {
+                        input.value = currentValue - 1;
+                    }
+                    
+                    updateCartItem(this.closest('.cart-item'));
+                    updateCart();
+                });
+            });
+
+            // Remove item
+            document.querySelectorAll('.remove-item').forEach(button => {
+                button.addEventListener('click', function() {
+                    const cartItem = this.closest('.cart-item');
+                    const productId = cartItem.dataset.productId;
+                    
+                    // Remove from localStorage
+                    let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+                    cartItems = cartItems.filter(item => item.id !== productId);
+                    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                    
+                    // Remove from DOM
+                    cartItem.remove();
+                    updateCart();
+                    
+                    // Reload cart if empty
+                    if (cartItems.length === 0) {
+                        loadCartItems();
+                    }
+                });
+            });
+        }
+
+        // Update individual cart item in localStorage
+        function updateCartItem(cartItem) {
+            const productId = cartItem.dataset.productId;
+            const quantity = parseInt(cartItem.querySelector('.quantity-input').value);
+            
+            let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            const itemIndex = cartItems.findIndex(item => item.id === productId);
+            
+            if (itemIndex > -1) {
+                cartItems[itemIndex].quantity = quantity;
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            }
+        }
+
+        // Update cart totals
+        function updateCart() {
+            let subtotal = 0;
+            document.querySelectorAll('.cart-item').forEach(item => {
+                const price = parseFloat(item.querySelector('.item-price').dataset.originalPrice);
+                const quantity = parseInt(item.querySelector('.quantity-input').value);
+                subtotal += price * quantity;
+            });
+
+            const shipping = 100;
+            const tax = subtotal * 0.1; // 10% tax
+            const total = subtotal + shipping + tax;
+
+            document.querySelector('.summary-row:nth-child(1) span:last-child').textContent = `₹${subtotal.toFixed(2)}`;
+            document.querySelector('.summary-row:nth-child(3) span:last-child').textContent = `₹${tax.toFixed(2)}`;
+            document.querySelector('.summary-row.total span:last-child').textContent = `₹${total.toFixed(2)}`;
+        }
+
+        // Currency conversion
+        const currencySelect = document.getElementById('currency');
+        if (currencySelect) {
+            currencySelect.addEventListener('change', function() {
+                const currency = this.value;
+                const rates = {
+                    'INR': 1,
+                    'USD': 0.012,
+                    'EUR': 0.011,
+                    'GBP': 0.0095
+                };
+                const symbols = {
+                    'INR': '₹',
+                    'USD': '$',
+                    'EUR': '€',
+                    'GBP': '£'
+                };
+
+                document.querySelectorAll('.item-price, .summary-row span:last-child').forEach(element => {
+                    const price = parseFloat(element.getAttribute('data-original-price') || element.textContent.replace(/[₹$€£]/, '').replace(',', ''));
+                    const convertedPrice = price * rates[currency];
+                    element.textContent = `${symbols[currency]}${convertedPrice.toFixed(2)}`;
+                });
+            });
+        }
+
+        // Load cart items when page loads
+        document.addEventListener('DOMContentLoaded', loadCartItems);
+    </script>
+</body>
+</html> 

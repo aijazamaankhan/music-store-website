@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DVDs - MyStore</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .records-section {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .records-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+            padding: 1rem;
+            max-width: 1400px;
+            margin: 2rem auto;
+        }
+
+        .record-card {
+            background: var(--color-light);
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+            transition: all 0.4s ease;
+            border: none;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            max-width: 360px;
+            margin: 0 auto;
+        }
+
+        .record-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(255, 111, 97, 0.15);
+        }
+
+        .record-image {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border-bottom: none;
+            transition: transform 0.4s ease;
+        }
+
+        .record-card:hover .record-image {
+            transform: scale(1.03);
+        }
+
+        .record-info {
+            padding: 1.8rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            background: linear-gradient(to bottom, var(--color-light) 0%, rgba(255, 255, 255, 0.95) 100%);
+            position: relative;
+            z-index: 1;
+        }
+
+        .record-title {
+            font-size: 1.3rem;
+            color: var(--color-primary);
+            margin-bottom: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            line-height: 1.4;
+        }
+
+        .record-price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--color-dark-light);
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .record-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .rating-stars {
+            color: #FFD700;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+
+        .rating-count {
+            color: var(--color-gray);
+            font-size: 0.9rem;
+        }
+
+        .record-description {
+            color: var(--color-dark-light);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 1.2rem;
+            flex: 1;
+            opacity: 0.85;
+        }
+
+        .record-actions {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-view-details, .btn-add-cart {
+            background: var(--color-primary);
+            color: white;
+            padding: 0.8rem 1.2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-view-details {
+            background: var(--color-dark-light);
+        }
+
+        .btn-add-cart:hover, .btn-view-details:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 111, 97, 0.2);
+        }
+
+        .btn-add-cart:hover {
+            background: var(--color-primary-light);
+        }
+
+        .btn-view-details:hover {
+            background: var(--color-dark);
+        }
+
+        .section-title {
+            font-size: 2.6rem;
+            font-weight: 800;
+            color: var(--color-primary);
+            text-align: center;
+            margin-bottom: 1.2rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            text-shadow: 0 0 6px var(--color-primary-light);
+        }
+
+        .section-description {
+            text-align: center;
+            color: var(--color-dark-light);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 3rem auto;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .title-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('images/dvd-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            padding: 6rem 2rem;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .title-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255, 111, 97, 0.2), rgba(255, 111, 97, 0));
+            pointer-events: none;
+        }
+
+        .title-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-title {
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 1.5rem;
+        }
+
+        .section-description {
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 1200px) {
+            .records-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 1.8rem;
+                padding: 0.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .records-grid {
+                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+                gap: 1.5rem;
+                padding: 0.5rem;
+            }
+
+            .title-section {
+                padding: 4rem 1rem;
+                margin-bottom: 3rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .record-info {
+                padding: 1.5rem;
+            }
+
+            .record-title {
+                font-size: 1.2rem;
+            }
+
+            .record-price {
+                font-size: 1.3rem;
+            }
+
+            .btn-add-cart, .btn-view-details {
+                padding: 0.7rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="main-header">
+        <div class="logo-currency">
+            <div class="logo">MyStore</div>
+            <div class="currency-switcher">
+                <select id="currency">
+                    <option value="INR" selected>₹ INR</option>
+                    <option value="USD">$ USD</option>
+                    <option value="EUR">€ EUR</option>
+                    <option value="GBP">£ GBP</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <nav id="navbar">
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li class="dropdown">
+                        <a href="shop.html" class="dropdown-trigger">Shop</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="vinyl-records.html">Vinyl Records</a></li>
+                            <li><a href="audio-cds.html">Audio CDs</a></li>
+                            <li><a href="dvds.html">DVDs</a></li>
+                            <li><a href="blu-ray.html">Blu-ray</a></li>
+                            <li><a href="amplifiers.html">Amplifiers</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="login.html">Login / Register</a></li>
+                </ul>
+                <div class="menu-toggle" id="mobile-menu">&#9776;</div>
+            </nav>
+            <div class="search-bar">
+                <input type="text" placeholder="Search products..." />
+            </div>
+            <a href="cart.html" class="cart-icon" title="View Cart">
+                <i class="fas fa-shopping-basket"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- TITLE SECTION -->
+    <section class="title-section">
+        <div class="title-content">
+            <h1 class="section-title">Hindi Movie DVDs</h1>
+            <p class="section-description">
+                Explore our extensive collection of Hindi movie DVDs. From timeless classics to modern masterpieces, 
+                each DVD comes with special features, behind-the-scenes footage, and exclusive content.
+            </p>
+        </div>
+    </section>
+
+    <!-- RECORDS SECTION -->
+    <section class="records-section">
+        <h1 class="page-title">DVDs Collection</h1>
+        <div class="records-grid">
+            <!-- 3 Idiots -->
+            <div class="record-card">
+                <img src="images/3-idiots.jpg" alt="3 Idiots" class="record-image">
+                <div class="record-info">
+                    <h3 class="record-title">3 Idiots</h3>
+                    <div class="record-price">₹699</div>
+                    <div class="record-rating">
+                        <div class="rating-stars">★★★★★</div>
+                        <div class="rating-count">(156 reviews)</div>
+                    </div>
+                    <p class="record-description">
+                        The complete movie with special features, behind-the-scenes footage, and director's commentary.
+                    </p>
+                    <div class="record-actions">
+                        <a href="view-product.html" class="btn-view-details">View Details</a>
+                        <a href="#" class="btn-add-cart">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Taare Zameen Par -->
+            <div class="record-card">
+                <img src="images/taare-zameen-par.jpg" alt="Taare Zameen Par" class="record-image">
+                <div class="record-info">
+                    <h3 class="record-title">Taare Zameen Par</h3>
+                    <div class="record-price">₹599</div>
+                    <div class="record-rating">
+                        <div class="rating-stars">★★★★★</div>
+                        <div class="rating-count">(142 reviews)</div>
+                    </div>
+                    <p class="record-description">
+                        Special edition DVD with deleted scenes, making of documentary, and exclusive interviews.
+                    </p>
+                    <div class="record-actions">
+                        <a href="view-product.html" class="btn-view-details">View Details</a>
+                        <a href="#" class="btn-add-cart">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rang De Basanti -->
+            <div class="record-card">
+                <img src="images/rang-de-basanti.jpg" alt="Rang De Basanti" class="record-image">
+                <div class="record-info">
+                    <h3 class="record-title">Rang De Basanti</h3>
+                    <div class="record-price">₹649</div>
+                    <div class="record-rating">
+                        <div class="rating-stars">★★★★★</div>
+                        <div class="rating-count">(134 reviews)</div>
+                    </div>
+                    <p class="record-description">
+                        Collector's edition DVD with exclusive content, making of documentary, and cast interviews.
+                    </p>
+                    <div class="record-actions">
+                        <a href="view-product.html" class="btn-view-details">View Details</a>
+                        <a href="#" class="btn-add-cart">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lagaan -->
+            <div class="record-card">
+                <img src="images/lagaan.jpg" alt="Lagaan" class="record-image">
+                <div class="record-info">
+                    <h3 class="record-title">Lagaan</h3>
+                    <div class="record-price">₹549</div>
+                    <div class="record-rating">
+                        <div class="rating-stars">★★★★★</div>
+                        <div class="rating-count">(128 reviews)</div>
+                    </div>
+                    <p class="record-description">
+                        Oscar-nominated film with special features, music videos, and making of documentary.
+                    </p>
+                    <div class="record-actions">
+                        <a href="view-product.html" class="btn-view-details">View Details</a>
+                        <a href="#" class="btn-add-cart">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Swades -->
+            <div class="record-card">
+                <img src="images/swades.jpg" alt="Swades" class="record-image">
+                <div class="record-info">
+                    <h3 class="record-title">Swades</h3>
+                    <div class="record-price">₹499</div>
+                    <div class="record-rating">
+                        <div class="rating-stars">★★★★★</div>
+                        <div class="rating-count">(112 reviews)</div>
+                    </div>
+                    <p class="record-description">
+                        Special edition DVD with director's cut, deleted scenes, and exclusive behind-the-scenes footage.
+                    </p>
+                    <div class="record-actions">
+                        <a href="view-product.html" class="btn-view-details">View Details</a>
+                        <a href="#" class="btn-add-cart">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chak De India -->
+            <div class="record-card">
+                <img src="images/chak-de-india.jpg" alt="Chak De India" class="record-image">
+                <div class="record-info">
+                    <h3 class="record-title">Chak De India</h3>
+                    <div class="record-price">₹449</div>
+                    <div class="record-rating">
+                        <div class="rating-stars">★★★★★</div>
+                        <div class="rating-count">(98 reviews)</div>
+                    </div>
+                    <p class="record-description">
+                        Collector's edition with special features, interviews with the cast, and making of documentary.
+                    </p>
+                    <div class="record-actions">
+                        <a href="view-product.html" class="btn-view-details">View Details</a>
+                        <a href="#" class="btn-add-cart">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-section about">
+                <h3>About MyStore</h3>
+                <p>Your go-to place for vinyl records, music gear, and audio accessories.</p>
+            </div>
+            <div class="footer-section links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#">Shop</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact">
+                <h3>Contact Us</h3>
+                <p>Email: support@mystore.com</p>
+                <p>Phone: +1 (555) 123-4567</p>
+                <p>Address: 123 Music Ave, Melody City</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2025 MyStore. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Currency conversion rates (example rates)
+        const exchangeRates = {
+            'INR': 1,
+            'USD': 0.012,
+            'EUR': 0.011,
+            'GBP': 0.0095
+        };
+
+        // Currency symbols
+        const currencySymbols = {
+            'INR': '₹',
+            'USD': '$',
+            'EUR': '€',
+            'GBP': '£'
+        };
+
+        // Function to update prices based on selected currency
+        function updatePrices(currency) {
+            const priceElements = document.querySelectorAll('.record-price');
+            priceElements.forEach(element => {
+                // Get the original price in INR (remove the currency symbol and convert to number)
+                const originalPrice = parseFloat(element.getAttribute('data-original-price') || element.textContent.replace(/[₹$€£]/, '').replace(',', ''));
+                
+                // Convert to selected currency
+                const convertedPrice = originalPrice * exchangeRates[currency];
+                
+                // Format the price with 2 decimal places and appropriate symbol
+                const formattedPrice = `${currencySymbols[currency]}${convertedPrice.toFixed(2)}`;
+                
+                // Update the display
+                element.textContent = formattedPrice;
+            });
+        }
+
+        // Store original prices when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const priceElements = document.querySelectorAll('.record-price');
+            priceElements.forEach(element => {
+                const originalPrice = element.textContent.replace(/[₹$€£]/, '').replace(',', '');
+                element.setAttribute('data-original-price', originalPrice);
+            });
+
+            // Add event listener to currency selector
+            const currencySelect = document.getElementById('currency');
+            if (currencySelect) {
+                currencySelect.addEventListener('change', function() {
+                    updatePrices(this.value);
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

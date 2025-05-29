@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - EP & LP Vinyl Records</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --color-primary: #FF6F61;
+            --color-primary-light: #FF8F84;
+            --color-dark: #333333;
+            --color-gray: #666666;
+            --color-gray-light: #EEEEEE;
+            --color-light: #F8F9FA;
+            --color-success: #2ECC71;
+            --color-error: #E74C3C;
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
+        }
+
+        .auth-section {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 400px);
+            background: var(--color-light);
+        }
+
+        .auth-container {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 450px;
+            transition: var(--transition);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .auth-container:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .auth-title {
+            font-size: 2rem;
+            color: var(--color-primary);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .auth-subtitle {
+            color: var(--color-gray);
+            font-size: 1rem;
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            width: 100%;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            width: 100%;
+        }
+
+        .form-group label {
+            color: var(--color-dark);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--color-gray-light);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus {
+            border-color: var(--color-primary);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(255, 111, 97, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .form-group .input-with-icon {
+            position: relative;
+            width: 100%;
+        }
+
+        .form-group .input-with-icon i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-gray);
+        }
+
+        .form-group .input-with-icon input {
+            width: 100%;
+            padding-left: 2.5rem;
+            box-sizing: border-box;
+        }
+
+        .terms {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--color-gray);
+            width: 100%;
+        }
+
+        .terms input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            margin-top: 0.2rem;
+            accent-color: var(--color-primary);
+        }
+
+        .terms a {
+            color: var(--color-primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .terms a:hover {
+            text-decoration: underline;
+        }
+
+        .auth-button {
+            width: 100%;
+            background: var(--color-primary);
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-button:hover {
+            background: var(--color-primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 111, 97, 0.2);
+        }
+
+        .auth-button::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .auth-button:active::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .auth-divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 1.5rem 0;
+            color: var(--color-gray);
+            width: 100%;
+        }
+
+        .auth-divider::before,
+        .auth-divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--color-gray-light);
+        }
+
+        .auth-divider span {
+            padding: 0 1rem;
+        }
+
+        .social-login {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            width: 100%;
+        }
+
+        .social-button {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.8rem;
+            border: 1px solid var(--color-gray-light);
+            border-radius: var(--border-radius);
+            background: white;
+            color: var(--color-dark);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-button:hover {
+            background: var(--color-light);
+            border-color: var(--color-gray);
+            transform: translateY(-2px);
+        }
+
+        .social-button::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .social-button:active::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .social-button i {
+            font-size: 1.2rem;
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--color-gray);
+            font-size: 0.95rem;
+            width: 100%;
+        }
+
+        .auth-footer a {
+            color: var(--color-primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .auth-footer a:hover {
+            color: var(--color-primary-light);
+        }
+
+        .error-message {
+            color: var(--color-error);
+            font-size: 0.9rem;
+            margin-top: 0.3rem;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-10px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .form-group.error input {
+            border-color: var(--color-error);
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .input-with-icon input:focus + i {
+            color: var(--color-primary);
+        }
+
+        .terms input[type="checkbox"]:checked {
+            accent-color: var(--color-primary);
+        }
+
+        .success-message {
+            background-color: var(--color-success);
+            color: white;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            animation: slideIn 0.3s ease;
+        }
+
+        .password-strength {
+            height: 4px;
+            background: var(--color-gray-light);
+            margin-top: 0.5rem;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .password-strength-bar {
+            height: 100%;
+            width: 0;
+            transition: width 0.3s ease, background-color 0.3s ease;
+        }
+
+        .strength-weak { background-color: var(--color-error); }
+        .strength-medium { background-color: #f1c40f; }
+        .strength-strong { background-color: var(--color-success); }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .auth-section {
+                padding: 1rem;
+            }
+
+            .auth-container {
+                padding: 1.5rem;
+            }
+
+            .social-login {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="main-header">
+        <div class="logo-currency">
+            <div class="logo">EP & LP Vinyl Records</div>
+            <div class="currency-switcher">
+                <select id="currency">
+                    <option value="INR" selected>₹ INR</option>
+                    <option value="USD">$ USD</option>
+                    <option value="EUR">€ EUR</option>
+                    <option value="GBP">£ GBP</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <nav id="navbar">
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li class="dropdown">
+                        <a href="shop.html" class="dropdown-trigger">Shop</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="vinyl-records.html">Vinyl Records</a></li>
+                            <li><a href="dvds.html">DVDs</a></li>
+                            <li><a href="audio-cds.html">Audio CDs</a></li>
+                            <li><a href="blu-ray.html">Blu-ray</a></li>
+                            <li><a href="amplifiers.html">Amplifiers</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="login.html" class="active">Login / Register</a></li>
+                </ul>
+                <div class="menu-toggle" id="mobile-menu">&#9776;</div>
+            </nav>
+            <div class="search-bar">
+                <input type="text" placeholder="Search products..." />
+            </div>
+            <a href="cart.html" class="cart-icon" title="View Cart">
+                <i class="fas fa-shopping-basket"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- AUTH SECTION -->
+    <section class="auth-section">
+        <div class="auth-container">
+            <div class="auth-header">
+                <h1 class="auth-title">Create Account</h1>
+                <p class="auth-subtitle">Please fill in your details to sign up</p>
+            </div>
+
+            <form class="auth-form" id="signupForm">
+                <div class="form-group">
+                    <label for="fullname">Full Name</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="fullname" name="fullname" placeholder="Enter your full name" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" name="password" placeholder="Create a password" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" required>
+                    </div>
+                </div>
+
+                <div class="terms">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">
+                        I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                    </label>
+                </div>
+
+                <button type="submit" class="auth-button">Create Account</button>
+            </form>
+
+            <div class="auth-divider">
+                <span>or sign up with</span>
+            </div>
+
+            <div class="social-login">
+                <button class="social-button">
+                    <i class="fab fa-google"></i>
+                    Google
+                </button>
+                <button class="social-button">
+                    <i class="fab fa-facebook-f"></i>
+                    Facebook
+                </button>
+            </div>
+
+            <div class="auth-footer">
+                Already have an account? <a href="login.html">Sign in</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-section about">
+                <h3>About Store</h3>
+                <p>Your go-to place for vinyl records, music gear, and audio accessories.</p>
+            </div>
+            <div class="footer-section links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact">
+                <h3>Contact Us</h3>
+                <p>Email: support@store.com</p>
+                <p>Phone: +1 (555) 123-4567</p>
+                <p>Address: 123 Music Ave, Melody City</p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Dummy user data storage
+        let dummyUsers = JSON.parse(localStorage.getItem('dummyUsers')) || [
+            {
+                email: 'test@example.com',
+                password: 'test123',
+                name: 'Test User'
+            },
+            {
+                email: 'admin@example.com',
+                password: 'admin123',
+                name: 'Admin User'
+            }
+        ];
+
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitButton = this.querySelector('.auth-button');
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
+            submitButton.disabled = true;
+            
+            const fullname = document.getElementById('fullname').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const terms = document.getElementById('terms').checked;
+            let isValid = true;
+
+            // Full name validation
+            if (fullname.trim().length < 2) {
+                document.getElementById('fullname').parentElement.parentElement.classList.add('error');
+                isValid = false;
+            } else {
+                document.getElementById('fullname').parentElement.parentElement.classList.remove('error');
+            }
+
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                document.getElementById('email').parentElement.parentElement.classList.add('error');
+                isValid = false;
+            } else {
+                document.getElementById('email').parentElement.parentElement.classList.remove('error');
+            }
+
+            // Password validation
+            if (password.length < 6) {
+                document.getElementById('password').parentElement.parentElement.classList.add('error');
+                isValid = false;
+            } else {
+                document.getElementById('password').parentElement.parentElement.classList.remove('error');
+            }
+
+            // Confirm password validation
+            if (password !== confirmPassword) {
+                document.getElementById('confirm-password').parentElement.parentElement.classList.add('error');
+                isValid = false;
+            } else {
+                document.getElementById('confirm-password').parentElement.parentElement.classList.remove('error');
+            }
+
+            // Terms validation
+            if (!terms) {
+                document.getElementById('terms').parentElement.classList.add('error');
+                isValid = false;
+            } else {
+                document.getElementById('terms').parentElement.classList.remove('error');
+            }
+
+            if (isValid) {
+                // Check if email already exists
+                const existingUser = dummyUsers.find(u => u.email === email);
+                
+                if (existingUser) {
+                    // Reset button state
+                    submitButton.innerHTML = 'Create Account';
+                    submitButton.disabled = false;
+
+                    // Show error message
+                    const errorMessage = document.createElement('div');
+                    errorMessage.className = 'error-message';
+                    errorMessage.innerHTML = `
+                        <i class="fas fa-exclamation-circle"></i>
+                        Email already registered. Please use a different email or login.
+                    `;
+                    document.querySelector('.auth-form').prepend(errorMessage);
+                    
+                    // Remove error message after 3 seconds
+                    setTimeout(() => {
+                        errorMessage.remove();
+                    }, 3000);
+                } else {
+                    // Add new user to dummy data
+                    const newUser = {
+                        email,
+                        password,
+                        name: fullname
+                    };
+                    dummyUsers.push(newUser);
+                    localStorage.setItem('dummyUsers', JSON.stringify(dummyUsers));
+
+                    // Set login state
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('userEmail', email);
+                    localStorage.setItem('userName', fullname);
+                    
+                    // Show success message
+                    const successMessage = document.createElement('div');
+                    successMessage.className = 'success-message';
+                    successMessage.innerHTML = `
+                        <i class="fas fa-check-circle"></i>
+                        Account created successfully! Redirecting...
+                    `;
+                    document.querySelector('.auth-form').prepend(successMessage);
+                    
+                    // Redirect after a short delay
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1500);
+                }
+            } else {
+                // Reset button state if validation fails
+                submitButton.innerHTML = 'Create Account';
+                submitButton.disabled = false;
+            }
+        });
+
+        // Add password strength indicator
+        const passwordInput = document.getElementById('password');
+        const strengthBar = document.createElement('div');
+        strengthBar.className = 'password-strength';
+        const strengthBarInner = document.createElement('div');
+        strengthBarInner.className = 'password-strength-bar';
+        strengthBar.appendChild(strengthBarInner);
+        passwordInput.parentElement.appendChild(strengthBar);
+
+        passwordInput.addEventListener('input', function() {
+            const password = this.value;
+            let strength = 0;
+            
+            if (password.length >= 6) strength += 1;
+            if (password.length >= 8) strength += 1;
+            if (/[A-Z]/.test(password)) strength += 1;
+            if (/[0-9]/.test(password)) strength += 1;
+            if (/[^A-Za-z0-9]/.test(password)) strength += 1;
+
+            const width = (strength / 5) * 100;
+            strengthBarInner.style.width = `${width}%`;
+            
+            if (strength <= 2) {
+                strengthBarInner.className = 'password-strength-bar strength-weak';
+            } else if (strength <= 4) {
+                strengthBarInner.className = 'password-strength-bar strength-medium';
+            } else {
+                strengthBarInner.className = 'password-strength-bar strength-strong';
+            }
+        });
+
+        // Add focus effects to inputs
+        document.querySelectorAll('.form-group input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.parentElement.classList.add('focused');
+            });
+
+            input.addEventListener('blur', function() {
+                this.parentElement.parentElement.classList.remove('focused');
+            });
+        });
+
+        // Add hover effect to social buttons
+        document.querySelectorAll('.social-button').forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+            });
+
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Check if user is already logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            if (isLoggedIn) {
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - MyStore</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --color-primary: #FF6F61;
+            --color-primary-light: #FF8A7F;
+            --color-dark: #2C3E50;
+            --color-dark-light: #34495E;
+            --color-light: #FFFFFF;
+            --color-gray: #95A5A6;
+            --color-gray-light: #ECF0F1;
+            --color-success: #2ECC71;
+        }
+
+        .shop-section {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .category-title {
+            font-size: 2.2rem;
+            color: var(--color-primary);
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .product-card {
+            background: var(--color-light);
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+            transition: all 0.4s ease;
+            border: none;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(255, 111, 97, 0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border-bottom: none;
+            transition: transform 0.4s ease;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.03);
+        }
+
+        .product-info {
+            padding: 1.8rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            background: linear-gradient(to bottom, var(--color-light) 0%, rgba(255, 255, 255, 0.95) 100%);
+            position: relative;
+            z-index: 1;
+        }
+
+        .product-title {
+            font-size: 1.3rem;
+            color: var(--color-primary);
+            margin-bottom: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            line-height: 1.4;
+        }
+
+        .product-price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--color-dark-light);
+            margin-bottom: 1.2rem;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .rating-stars {
+            color: #FFD700;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+
+        .rating-count {
+            color: var(--color-gray);
+            font-size: 0.9rem;
+        }
+
+        .product-description {
+            color: var(--color-dark-light);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 1.2rem;
+            flex: 1;
+            opacity: 0.85;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-view-details, .btn-add-cart {
+            background: var(--color-primary);
+            color: white;
+            padding: 0.8rem 1.2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-view-details {
+            background: var(--color-dark-light);
+        }
+
+        .btn-add-cart {
+            background: var(--color-primary);
+            color: white;
+            padding: 0.8rem 1.2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-add-cart.in-cart {
+            background: var(--color-success);
+            pointer-events: none;
+        }
+
+        .btn-add-cart.in-cart i {
+            margin-right: 0.3rem;
+        }
+
+        .btn-add-cart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 111, 97, 0.2);
+        }
+
+        .btn-view-details:hover {
+            background: var(--color-dark);
+        }
+
+        .best-selling {
+            margin-top: 4rem;
+            padding-top: 4rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .best-selling-title {
+            font-size: 2.2rem;
+            color: var(--color-primary);
+            margin-bottom: 2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('images/shop-hero.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 6rem 2rem;
+            text-align: center;
+            color: white;
+            margin-bottom: 4rem;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .category-section {
+            margin-bottom: 4rem;
+        }
+
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .view-all-btn {
+            background: var(--color-primary);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .view-all-btn:hover {
+            background: var(--color-primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 111, 97, 0.2);
+        }
+
+        .view-all-btn::after {
+            content: "→";
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .view-all-btn:hover::after {
+            transform: translateX(4px);
+        }
+
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #fff;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            z-index: 1000;
+            border-radius: 8px;
+            overflow: hidden;
+            top: 100%;
+            left: 0;
+        }
+
+        .dropdown-content a {
+            color: var(--color-dark);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .dropdown-content a:hover {
+            background-color: var(--color-primary);
+            color: white;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+            color: var(--color-primary);
+        }
+
+        @media (max-width: 768px) {
+            .shop-section {
+                padding: 1rem;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
+
+            .category-title {
+                font-size: 1.8rem;
+            }
+
+            .product-info {
+                padding: 1.5rem;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-description {
+                font-size: 1.1rem;
+            }
+
+            .category-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+
+   
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="main-header">
+        <div class="logo-currency">
+            <div class="logo">EP & LP Vinyl Records</div>
+            <div class="currency-switcher">
+                <select id="currency">
+                    <option value="INR" selected>₹ INR</option>
+                    <option value="USD">$ USD</option>
+                    <option value="EUR">€ EUR</option>
+                    <option value="GBP">£ GBP</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <nav id="navbar">
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li class="dropdown">
+                        <a href="shop.html" class="dropdown-trigger">Shop</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="vinyl-records.html">Vinyl Records</a></li>
+                            <li><a href="audio-cds.html">Audio CDs</a></li>
+                            <li><a href="dvds.html">DVDs</a></li>
+                            <li><a href="blu-ray.html">Blu-ray</a></li>
+                            <li><a href="amplifiers.html">Amplifiers</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="login.html">Login / Register</a></li>
+                </ul>
+                <div class="menu-toggle" id="mobile-menu">&#9776;</div>
+            </nav>
+            <div class="search-bar">
+                <input type="text" placeholder="Search products..." />
+            </div>
+            <a href="cart.html" class="cart-icon" title="View Cart">
+                <i class="fas fa-shopping-basket"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+        <h1 class="hero-title">Welcome to Our Music Store</h1>
+        <p class="hero-description">
+            Discover our extensive collection of vinyl records, audio CDs, DVDs, Blu-rays, and high-quality amplifiers. 
+            From classic Bollywood hits to contemporary soundtracks, find your perfect music companion.
+        </p>
+    </section>
+
+    <!-- SHOP SECTION -->
+    <section class="shop-section">
+        <!-- Vinyl Records Section -->
+        <div class="category-section">
+            <div class="category-header">
+                <h2 class="category-title">Vinyl Records</h2>
+                <a href="vinyl-records.html" class="view-all-btn">View All</a>
+            </div>
+            <div class="products-grid">
+                <!-- Mughal-e-Azam -->
+                <div class="product-card">
+                    <img src="images/mughal-e-azam.jpg" alt="Mughal-e-Azam" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">Mughal-e-Azam</h3>
+                        <div class="product-price">₹1,499</div>
+                        <div class="product-rating">
+                            <div class="rating-stars">★★★★★</div>
+                            <div class="rating-count">(128 reviews)</div>
+                        </div>
+                        <p class="product-description">
+                            The iconic soundtrack of the classic film featuring unforgettable songs by Lata Mangeshkar and Mohammed Rafi.
+                        </p>
+                        <div class="product-actions">
+                            <a href="view-product.html" class="btn-view-details">View Details</a>
+                            <a href="cart.html" class="btn-add-cart" 
+                               data-product-id="1"
+                               data-product-name="Mughal-e-Azam"
+                               data-product-price="1499"
+                               data-product-image="images/mughal-e-azam.jpg"
+                               data-product-type="Vinyl Record">
+                                Add to Cart
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sholay -->
+                <div class="product-card">
+                    <img src="images/sholay.jpg" alt="Sholay" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">Sholay</h3>
+                        <div class="product-price">₹1,299</div>
+                        <div class="product-rating">
+                            <div class="rating-stars">★★★★☆</div>
+                            <div class="rating-count">(95 reviews)</div>
+                        </div>
+                        <p class="product-description">
+                            The legendary soundtrack featuring R.D. Burman's iconic compositions and Kishore Kumar's unforgettable voice.
+                        </p>
+                        <div class="product-actions">
+                            <a href="view-product.html" class="btn-view-details">View Details</a>
+                            <a href="cart.html" class="btn-add-cart"
+                               data-product-id="2"
+                               data-product-name="Sholay"
+                               data-product-price="1299"
+                               data-product-image="images/sholay.jpg"
+                               data-product-type="Vinyl Record">
+                                Add to Cart
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DDLJ -->
+                <div class="product-card">
+                    <img src="images/ddlj.jpg" alt="DDLJ" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">Dilwale Dulhania Le Jayenge</h3>
+                        <div class="product-price">₹999</div>
+                        <div class="product-rating">
+                            <div class="rating-stars">★★★★★</div>
+                            <div class="rating-count">(156 reviews)</div>
+                        </div>
+                        <p class="product-description">
+                            The romantic soundtrack that defined a generation, featuring timeless melodies by Jatin-Lalit.
+                        </p>
+                        <div class="product-actions">
+                            <a href="view-product.html" class="btn-view-details">View Details</a>
+                            <a href="cart.html" class="btn-add-cart"
+                               data-product-id="3"
+                               data-product-name="Dilwale Dulhania Le Jayenge"
+                               data-product-price="999"
+                               data-product-image="images/ddlj.jpg"
+                               data-product-type="Vinyl Record">
+                                Add to Cart
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Audio CDs Section -->
+        <div class="category-section">
+            <div class="category-header">
+                <h2 class="category-title">Audio CDs</h2>
+                <a href="audio-cds.html" class="view-all-btn">View All</a>
+            </div>
+            <div class="products-grid">
+                <!-- Dil Chahta Hai -->
+                <div class="product-card">
+                    <img src="images/dil-chahta-hai.jpg" alt="Dil Chahta Hai" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">Dil Chahta Hai</h3>
+                        <div class="product-price">₹499</div>
+                        <div class="product-rating">
+                            <div class="rating-stars">★★★★★</div>
+                            <div class="rating-count">(98 reviews)</div>
+                        </div>
+                        <p class="product-description">
+                            Shankar-Ehsaan-Loy's modern classic featuring the iconic title track and other memorable songs.
+                        </p>
+                        <div class="product-actions">
+                            <a href="view-product.html" class="btn-view-details">View Details</a>
+                            <a href="#" class="btn-add-cart">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rock On -->
+                <div class="product-card">
+                    <img src="images/rock-on.jpg" alt="Rock On" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">Rock On</h3>
+                        <div class="product-price">₹399</div>
+                        <div class="product-rating">
+                            <div class="rating-stars">★★★★☆</div>
+                            <div class="rating-count">(76 reviews)</div>
+                        </div>
+                        <p class="product-description">
+                            Farhan Akhtar's rock band soundtrack featuring powerful vocals and energetic compositions.
+                        </p>
+                        <div class="product-actions">
+                            <a href="view-product.html" class="btn-view-details">View Details</a>
+                            <a href="#" class="btn-add-cart">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Zindagi Na Milegi Dobara -->
+                <div class="product-card">
+                    <img src="images/zindagi-na-milegi-dobara.jpg" alt="Zindagi Na Milegi Dobara" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">Zindagi Na Milegi Dobara</h3>
+                        <div class="product-price">₹449</div>
+                        <div class="product-rating">
+                            <div class="rating-stars">★★★★★</div>
+                            <div class="rating-count">(112 reviews)</div>
+                        </div>
+                        <p class="product-description">
+                            Shankar-Ehsaan-Loy's soulful soundtrack featuring Farhan Akhtar's poetic verses and memorable songs.
+                        </p>
+                        <div class="product-actions">
+                            <a href="view-product.html" class="btn-view-details">View Details</a>
+                            <a href="#" class="btn-add-cart">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DVDs Section -->
+        <div class="category-section">
+            <div class="category-header">
+                <h2 class="category-title">DVDs</h2>
+                <a href="dvds.html" class="view-all-btn">View All</a>
+            </div>
+            <div class="products-grid">
+                <!-- 3 Idiots -->
+                <div class="product-card">
+                    <img src="images/3-idiots.jpg" alt="3 Idiots" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">3 Idiots</h3>
+                        <div class="product-price">₹699</div>
+                        <div class="product-rating">
+                            <div class="rating-stars">★★★★★</div>
+                            <div class="rating-count">(156 reviews)</div>
+                        </div>
+                        <p class="product-description">
+                            The complete movie with special features, behind-the-scenes footage, and director's commentary.
+                        </p>
+                        <div class="product-actions">
+                            <a href="view-product.html" class="btn-view-details">View Details</a>
+                            <a href="#" class="btn-add-cart">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Taare Zameen Par -->
+                <div class="product-card">
+                    <img src="images/taare-zameen-par.jpg" alt="Taare Zameen Par" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">Taare Zameen Par</h3>
+                        <div class="product-price">₹599</div>
+                        <div class="product-rating">
+                            <div class="rating-stars">★★★★★</div>
+                            <div class="rating-count">(142 reviews)</div>
+                        </div>
+                        <p class="product-description">
+                            Special edition DVD with deleted scenes, making of documentary, and exclusive interviews.
+                        </p>
+                        <div class="product-actions">
+                            <a href="view-product.html" class="btn-view-details">View Details</a>
+                            <a href="#" class="btn-add-cart">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rang De Basanti -->
+                <div class="product-card">
+                    <img src="images/rang-de-basanti.jpg" alt="Rang De Basanti" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">Rang De Basanti</h3>
+                        <div class="product-price">₹649</div>
+                        <div class="product-rating">
+                            <div class="rating-stars">★★★★★</div>
+                            <div class="rating-count">(134 reviews)</div>
+                        </div>
+                        <p class="product-description">
+                            Collector's edition DVD with exclusive content, making of documentary, and cast interviews.
+                        </p>
+                        <div class="product-actions">
+                            <a href="view-product.html" class="btn-view-details">View Details</a>
+                            <a href="#" class="btn-add-cart">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blu-ray Section -->
+        <div class="category-section">
+            <div class="category-header">
+                <h2 class="category-title">Blu-ray</h2>
+                <a href="blu-ray.html" class="view-all-btn">View All</a>
+            </div>
+            <div class="products-grid">
+                <!-- Dangal -->
+                <div class="product-card">
+                    <img src="images/dangal.jpg" alt="Dangal" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">Dangal</h3>
+                        <div class="product-price">₹1,299</div>
+                        <div class="product-rating">
+                            <div class="rating-stars">★★★★★</div>
+                            <div class="rating-count">(168 reviews)</div>
+                        </div>
+                        <p class="product-description">
+                            4K Ultra HD Blu-ray with Dolby Atmos sound, exclusive content, and collectible packaging.
+                        </p>
+                        <div class="product-actions">
+                            <a href="view-product.html" class="btn-view-details">View Details</a>
+                            <a href="#" class="btn-add-cart">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bajrangi Bhaijaan -->
+                <div class="product-card">
+                    <img src="images/bajrangi-bhaijaan.jpg" alt="Bajrangi Bhaijaan" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">Bajrangi Bhaijaan</h3>
+                        <div class="product-price">₹1,199</div>
+                        <div class="product-rating">
+                            <div class="rating-stars">★★★★★</div>
+                            <div class="rating-count">(145 reviews)</div>
+                        </div>
+                        <p class="product-description">
+                            Blu-ray with HDR, special features, and behind-the-scenes footage of the making.
+                        </p>
+                        <div class="product-actions">
+                            <a href="view-product.html" class="btn-view-details">View Details</a>
+                            <a href="#" class="btn-add-cart">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PK -->
+                <div class="product-card">
+                    <img src="images/pk.jpg" alt="PK" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">PK</h3>
+                        <div class="product-price">₹1,099</div>
+                        <div class="product-rating">
+                            <div class="rating-stars">★★★★★</div>
+                            <div class="rating-count">(156 reviews)</div>
+                        </div>
+                        <p class="product-description">
+                            Blu-ray with HDR, Dolby Atmos sound, and exclusive behind-the-scenes content.
+                        </p>
+                        <div class="product-actions">
+                            <a href="view-product.html" class="btn-view-details">View Details</a>
+                            <a href="#" class="btn-add-cart">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Amplifiers Section -->
+        <div class="category-section">
+            <div class="category-header">
+                <h2 class="category-title">Amplifiers</h2>
+                <a href="amplifiers.html" class="view-all-btn">View All</a>
+            </div>
+            <div class="products-grid">
+                <!-- Marantz PM6007 -->
+                <div class="product-card">
+                    <img src="images/marantz-pm6007.jpg" alt="Marantz PM6007" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">Marantz PM6007</h3>
+                        <div class="product-price">₹49,999</div>
+                        <div class="product-rating">
+                            <div class="rating-stars">★★★★★</div>
+                            <div class="rating-count">(89 reviews)</div>
+                        </div>
+                        <p class="product-description">
+                            Integrated stereo amplifier with 45W per channel, high-quality DAC, and premium audio components.
+                        </p>
+                        <div class="product-actions">
+                            <a href="view-product.html" class="btn-view-details">View Details</a>
+                            <a href="#" class="btn-add-cart">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cambridge Audio AXA35 -->
+                <div class="product-card">
+                    <img src="images/cambridge-axa35.jpg" alt="Cambridge Audio AXA35" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">Cambridge Audio AXA35</h3>
+                        <div class="product-price">₹39,999</div>
+                        <div class="product-rating">
+                            <div class="rating-stars">★★★★☆</div>
+                            <div class="rating-count">(76 reviews)</div>
+                        </div>
+                        <p class="product-description">
+                            Pure analogue integrated amplifier with 35W per channel and premium phono stage.
+                        </p>
+                        <div class="product-actions">
+                            <a href="view-product.html" class="btn-view-details">View Details</a>
+                            <a href="#" class="btn-add-cart">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Denon PMA-600NE -->
+                <div class="product-card">
+                    <img src="images/denon-pma600ne.jpg" alt="Denon PMA-600NE" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">Denon PMA-600NE</h3>
+                        <div class="product-price">₹44,999</div>
+                        <div class="product-rating">
+                            <div class="rating-stars">★★★★★</div>
+                            <div class="rating-count">(92 reviews)</div>
+                        </div>
+                        <p class="product-description">
+                            Integrated amplifier with 45W per channel, built-in DAC, and advanced audio circuitry.
+                        </p>
+                        <div class="product-actions">
+                            <a href="view-product.html" class="btn-view-details">View Details</a>
+                            <a href="#" class="btn-add-cart">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Best Selling Products -->
+        <div class="best-selling">
+            <div class="category-header">
+                <h2 class="best-selling-title">Best Selling Products</h2>
+                <a href="best-selling.html" class="view-all-btn">View All</a>
+            </div>
+            <div class="products-grid">
+                <!-- Lagaan -->
+                <div class="product-card">
+                    <img src="images/lagaan.jpg" alt="Lagaan" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">Lagaan</h3>
+                        <div class="product-price">₹1,199</div>
+                        <div class="product-rating">
+                            <div class="rating-stars">★★★★★</div>
+                            <div class="rating-count">(142 reviews)</div>
+                        </div>
+                        <p class="product-description">
+                            A.R. Rahman's masterpiece featuring the Oscar-nominated soundtrack with its unique blend of Indian classical and contemporary music.
+                        </p>
+                        <div class="product-actions">
+                            <a href="view-product.html" class="btn-view-details">View Details</a>
+                            <a href="#" class="btn-add-cart">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pakeezah -->
+                <div class="product-card">
+                    <img src="images/pakeezah.jpg" alt="Pakeezah" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">Pakeezah</h3>
+                        <div class="product-price">₹1,399</div>
+                        <div class="product-rating">
+                            <div class="rating-stars">★★★★☆</div>
+                            <div class="rating-count">(87 reviews)</div>
+                        </div>
+                        <p class="product-description">
+                            The classic soundtrack featuring Lata Mangeshkar's soulful voice and Naushad's timeless compositions.
+                        </p>
+                        <div class="product-actions">
+                            <a href="view-product.html" class="btn-view-details">View Details</a>
+                            <a href="#" class="btn-add-cart">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Guide -->
+                <div class="product-card">
+                    <img src="images/guide.jpg" alt="Guide" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">Guide</h3>
+                        <div class="product-price">₹1,299</div>
+                        <div class="product-rating">
+                            <div class="rating-stars">★★★★★</div>
+                            <div class="rating-count">(112 reviews)</div>
+                        </div>
+                        <p class="product-description">
+                            S.D. Burman's masterpiece featuring Kishore Kumar and Lata Mangeshkar's unforgettable duets.
+                        </p>
+                        <div class="product-actions">
+                            <a href="view-product.html" class="btn-view-details">View Details</a>
+                            <a href="#" class="btn-add-cart">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-section about">
+                <h3>About MyStore</h3>
+                <p>Your go-to place for vinyl records, music gear, and audio accessories.</p>
+            </div>
+            <div class="footer-section links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact">
+                <h3>Contact Us</h3>
+                <p>Email: support@mystore.com</p>
+                <p>Phone: +1 (555) 123-4567</p>
+                <p>Address: 123 Music Ave, Melody City</p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Add to Cart functionality
+        function updateAddToCartButtons() {
+            const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            
+            document.querySelectorAll('.btn-add-cart').forEach(button => {
+                const productId = button.dataset.productId;
+                const isInCart = cartItems.some(item => item.id === productId);
+                
+                if (isInCart) {
+                    button.classList.add('in-cart');
+                    button.innerHTML = '<i class="fas fa-check"></i> In Cart';
+                } else {
+                    button.classList.remove('in-cart');
+                    button.innerHTML = 'Add to Cart';
+                }
+            });
+        }
+
+        document.querySelectorAll('.btn-add-cart').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const product = {
+                    id: this.dataset.productId,
+                    name: this.dataset.productName,
+                    price: this.dataset.productPrice,
+                    image: this.dataset.productImage,
+                    type: this.dataset.productType,
+                    quantity: 1
+                };
+
+                // Get existing cart items from localStorage
+                let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+                // Check if item already exists in cart
+                const existingItemIndex = cartItems.findIndex(item => item.id === product.id);
+
+                if (existingItemIndex > -1) {
+                    // Update quantity if item exists
+                    cartItems[existingItemIndex].quantity += 1;
+                } else {
+                    // Add new item if it doesn't exist
+                    cartItems.push(product);
+                }
+
+                // Save updated cart to localStorage
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+
+                // Update button state
+                updateAddToCartButtons();
+
+                // Show success message
+                alert('Product added to cart!');
+            });
+        });
+
+        // Update button states when page loads
+        document.addEventListener('DOMContentLoaded', updateAddToCartButtons);
+
+        // Currency conversion rates (example rates)
+        const exchangeRates = {
+            'INR': 1,
+            'USD': 0.012,
+            'EUR': 0.011,
+            'GBP': 0.0095
+        };
+
+        // Currency symbols
+        const currencySymbols = {
+            'INR': '₹',
+            'USD': '$',
+            'EUR': '€',
+            'GBP': '£'
+        };
+
+        // Function to update prices based on selected currency
+        function updatePrices(currency) {
+            const priceElements = document.querySelectorAll('.product-price');
+            priceElements.forEach(element => {
+                // Get the original price in INR (remove the currency symbol and convert to number)
+                const originalPrice = parseFloat(element.getAttribute('data-original-price') || element.textContent.replace(/[₹$€£]/, '').replace(',', ''));
+                
+                // Convert to selected currency
+                const convertedPrice = originalPrice * exchangeRates[currency];
+                
+                // Format the price with 2 decimal places and appropriate symbol
+                const formattedPrice = `${currencySymbols[currency]}${convertedPrice.toFixed(2)}`;
+                
+                // Update the display
+                element.textContent = formattedPrice;
+            });
+        }
+
+        // Store original prices when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const priceElements = document.querySelectorAll('.product-price');
+            priceElements.forEach(element => {
+                const originalPrice = element.textContent.replace(/[₹$€£]/, '').replace(',', '');
+                element.setAttribute('data-original-price', originalPrice);
+            });
+
+            // Add event listener to currency selector
+            const currencySelect = document.getElementById('currency');
+            if (currencySelect) {
+                currencySelect.addEventListener('change', function() {
+                    updatePrices(this.value);
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

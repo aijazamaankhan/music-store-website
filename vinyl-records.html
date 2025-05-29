@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vinyl Records - MyStore</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .records-section {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .records-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+            padding: 1rem;
+            max-width: 1400px;
+            margin: 2rem auto;
+        }
+
+        .record-card {
+            background: var(--color-light);
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+            transition: all 0.4s ease;
+            border: none;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            max-width: 360px;
+            margin: 0 auto;
+        }
+
+        .record-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(255, 111, 97, 0.15);
+        }
+
+        .record-image {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border-bottom: none;
+            transition: transform 0.4s ease;
+        }
+
+        .record-card:hover .record-image {
+            transform: scale(1.03);
+        }
+
+        .record-info {
+            padding: 1.8rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            background: linear-gradient(to bottom, var(--color-light) 0%, rgba(255, 255, 255, 0.95) 100%);
+            position: relative;
+            z-index: 1;
+        }
+
+        .record-title {
+            font-size: 1.3rem;
+            color: var(--color-primary);
+            margin-bottom: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            line-height: 1.4;
+        }
+
+        .record-year {
+            color: var(--color-gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.8rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .record-details {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .record-detail {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--color-gray);
+            font-size: 0.9rem;
+        }
+
+        .record-detail i {
+            color: var(--color-primary);
+            font-size: 1.1rem;
+        }
+
+        .record-detail span {
+            font-weight: 500;
+        }
+
+        .record-year::before {
+            content: "•";
+            color: var(--color-primary);
+        }
+
+        .record-price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--color-dark-light);
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .record-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .rating-stars {
+            color: #FFD700;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+
+        .rating-count {
+            color: var(--color-gray);
+            font-size: 0.9rem;
+        }
+
+        .record-description {
+            color: var(--color-dark-light);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 1.2rem;
+            flex: 1;
+            opacity: 0.85;
+        }
+
+        .record-actions {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-add-cart, .btn-view-details {
+            background: var(--color-primary);
+            color: white;
+            padding: 0.8rem 1.2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-view-details {
+            background: var(--color-dark-light);
+        }
+
+        .btn-add-cart:hover, .btn-view-details:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 111, 97, 0.2);
+        }
+
+        .btn-add-cart:hover {
+            background: var(--color-primary-light);
+        }
+
+        .btn-view-details:hover {
+            background: var(--color-dark);
+        }
+
+        .section-title {
+            font-size: 2.6rem;
+            font-weight: 800;
+            color: var(--color-primary);
+            text-align: center;
+            margin-bottom: 1.2rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            text-shadow: 0 0 6px var(--color-primary-light);
+        }
+
+        .section-description {
+            text-align: center;
+            color: var(--color-dark-light);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 3rem auto;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .title-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('images/vinyl-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            padding: 6rem 2rem;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .title-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255, 111, 97, 0.2), rgba(255, 111, 97, 0));
+            pointer-events: none;
+        }
+
+        .title-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-title {
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 1.5rem;
+        }
+
+        .section-description {
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 1200px) {
+            .records-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 1.8rem;
+                padding: 0.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .records-grid {
+                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+                gap: 1.5rem;
+                padding: 0.5rem;
+            }
+
+            .title-section {
+                padding: 4rem 1rem;
+                margin-bottom: 3rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .record-info {
+                padding: 1.5rem;
+            }
+
+            .record-title {
+                font-size: 1.2rem;
+            }
+
+            .record-price {
+                font-size: 1.3rem;
+            }
+
+            .btn-add-cart, .btn-view-details {
+                padding: 0.7rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        .edition-select {
+            width: 100%;
+            padding: 0.6rem 1rem;
+            font-size: 0.9rem;
+            border: 2px solid #eee;
+            border-radius: var(--border-radius);
+            background: var(--color-light);
+            color: var(--color-dark-light);
+            cursor: pointer;
+            transition: all var(--transition);
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.8rem center;
+            background-size: 0.8em;
+            padding-right: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .edition-select:hover {
+            border-color: var(--color-primary-light);
+        }
+
+        .edition-select:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(255, 111, 97, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="main-header">
+        <div class="logo-currency">
+            <div class="logo">MyStore</div>
+            <div class="currency-switcher">
+                <select id="currency">
+                    <option value="INR" selected>₹ INR</option>
+                    <option value="USD">$ USD</option>
+                    <option value="EUR">€ EUR</option>
+                    <option value="GBP">£ GBP</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <nav id="navbar">
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li class="dropdown">
+                        <a href="shop.html" class="dropdown-trigger">Shop</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="vinyl-records.html">Vinyl Records</a></li>
+                            <li><a href="audio-cds.html">Audio CDs</a></li>
+                            <li><a href="dvds.html">DVDs</a></li>
+                            <li><a href="blu-ray.html">Blu-ray</a></li>
+                            <li><a href="amplifiers.html">Amplifiers</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="login.html">Login / Register</a></li>
+                </ul>
+                <div class="menu-toggle" id="mobile-menu">&#9776;</div>
+            </nav>
+            <div class="search-bar">
+                <input type="text" placeholder="Search products..." />
+            </div>
+            <a href="cart.html" class="cart-icon" title="View Cart">
+                <i class="fas fa-shopping-basket"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- RECORDS SECTION -->
+    <section class="title-section">
+        <div class="title-content">
+            <h1 class="section-title">Hindi Movie Vinyl Records</h1>
+            <p class="section-description">
+                Discover our exclusive collection of Hindi movie vinyl records. From classic Bollywood hits to contemporary soundtracks, 
+                experience the magic of analog sound with these carefully curated records.
+            </p>
+        </div>
+    </section>
+
+    <section class="records-section">
+        <div class="records-grid">
+            <!-- Mughal-e-Azam -->
+            <div class="record-card">
+                <img src="images/mughal-e-azam.jpg" alt="Mughal-e-Azam" class="record-image">
+                <div class="record-info">
+                    <h3 class="record-title">Mughal-e-Azam</h3>
+                    <div class="record-details">
+                        <div class="record-detail">
+                            <i>🎬</i>
+                            <span>Movie Year: 1960</span>
+                        </div>
+                        <div class="record-detail">
+                            <i>💿</i>
+                            <span>1st Edition</span>
+                        </div>
+                    </div>
+                    <div class="record-price">₹1,499</div>
+                    <select class="edition-select" data-original-price="1499">
+                        <option value="1499" selected>1st Edition - ₹1,499</option>
+                        <option value="1799">2nd Edition - ₹1,799</option>
+                        <option value="1999">3rd Edition - ₹1,999</option>
+                        <option value="2199">4th Edition - ₹2,199</option>
+                    </select>
+                    <div class="record-rating">
+                        <div class="rating-stars">★★★★★</div>
+                        <div class="rating-count">(128 reviews)</div>
+                    </div>
+                    <p class="record-description">
+                        The iconic soundtrack of the classic film featuring unforgettable songs by Lata Mangeshkar and Mohammed Rafi.
+                    </p>
+                    <div class="record-actions">
+                        <a href="view-product.html" class="btn-view-details">View Details</a>
+                        <a href="#" class="btn-add-cart">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sholay -->
+            <div class="record-card">
+                <img src="images/sholay.jpg" alt="Sholay" class="record-image">
+                <div class="record-info">
+                    <h3 class="record-title">Sholay</h3>
+                    <div class="record-details">
+                        <div class="record-detail">
+                            <i>🎬</i>
+                            <span>Movie Year: 1975</span>
+                        </div>
+                        <div class="record-detail">
+                            <i>💿</i>
+                            <span>1st Edition</span>
+                        </div>
+                    </div>
+                    <div class="record-price">₹1,299</div>
+                    <select class="edition-select" data-original-price="1299">
+                        <option value="1299" selected>1st Edition - ₹1,299</option>
+                        <option value="1599">2nd Edition - ₹1,599</option>
+                        <option value="1799">3rd Edition - ₹1,799</option>
+                        <option value="1999">4th Edition - ₹1,999</option>
+                    </select>
+                    <div class="record-rating">
+                        <div class="rating-stars">★★★★☆</div>
+                        <div class="rating-count">(95 reviews)</div>
+                    </div>
+                    <p class="record-description">
+                        The legendary soundtrack featuring R.D. Burman's iconic compositions and Kishore Kumar's unforgettable voice.
+                    </p>
+                    <div class="record-actions">
+                        <a href="view-product.html" class="btn-view-details">View Details</a>
+                        <a href="#" class="btn-add-cart">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DDLJ -->
+            <div class="record-card">
+                <img src="images/ddlj.jpg" alt="DDLJ" class="record-image">
+                <div class="record-info">
+                    <h3 class="record-title">Dilwale Dulhania Le Jayenge</h3>
+                    <div class="record-details">
+                        <div class="record-detail">
+                            <i>🎬</i>
+                            <span>Movie Year: 1995</span>
+                        </div>
+                        <div class="record-detail">
+                            <i>💿</i>
+                            <span>1st Edition</span>
+                        </div>
+                    </div>
+                    <div class="record-price">₹999</div>
+                    <select class="edition-select" data-original-price="999">
+                        <option value="999" selected>1st Edition - ₹999</option>
+                        <option value="1299">2nd Edition - ₹1,299</option>
+                        <option value="1499">3rd Edition - ₹1,499</option>
+                        <option value="1699">4th Edition - ₹1,699</option>
+                    </select>
+                    <div class="record-rating">
+                        <div class="rating-stars">★★★★★</div>
+                        <div class="rating-count">(156 reviews)</div>
+                    </div>
+                    <p class="record-description">
+                        The romantic soundtrack that defined a generation, featuring timeless melodies by Jatin-Lalit.
+                    </p>
+                    <div class="record-actions">
+                        <a href="view-product.html" class="btn-view-details">View Details</a>
+                        <a href="#" class="btn-add-cart">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lagaan -->
+            <div class="record-card">
+                <img src="images/lagaan.jpg" alt="Lagaan" class="record-image">
+                <div class="record-info">
+                    <h3 class="record-title">Lagaan</h3>
+                    <div class="record-details">
+                        <div class="record-detail">
+                            <i>🎬</i>
+                            <span>Movie Year: 2001</span>
+                        </div>
+                        <div class="record-detail">
+                            <i>💿</i>
+                            <span>1st Edition</span>
+                        </div>
+                    </div>
+                    <div class="record-price">₹1,199</div>
+                    <select class="edition-select" data-original-price="1199">
+                        <option value="1199" selected>1st Edition - ₹1,199</option>
+                        <option value="1499">2nd Edition - ₹1,499</option>
+                        <option value="1699">3rd Edition - ₹1,699</option>
+                        <option value="1899">4th Edition - ₹1,899</option>
+                    </select>
+                    <div class="record-rating">
+                        <div class="rating-stars">★★★★★</div>
+                        <div class="rating-count">(142 reviews)</div>
+                    </div>
+                    <p class="record-description">
+                        A.R. Rahman's masterpiece featuring the Oscar-nominated soundtrack with its unique blend of Indian classical and contemporary music.
+                    </p>
+                    <div class="record-actions">
+                        <a href="view-product.html" class="btn-view-details">View Details</a>
+                        <a href="#" class="btn-add-cart">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pakeezah -->
+            <div class="record-card">
+                <img src="images/pakeezah.jpg" alt="Pakeezah" class="record-image">
+                <div class="record-info">
+                    <h3 class="record-title">Pakeezah</h3>
+                    <div class="record-details">
+                        <div class="record-detail">
+                            <i>🎬</i>
+                            <span>Movie Year: 1972</span>
+                        </div>
+                        <div class="record-detail">
+                            <i>💿</i>
+                            <span>1st Edition</span>
+                        </div>
+                    </div>
+                    <div class="record-price">₹1,399</div>
+                    <select class="edition-select" data-original-price="1399">
+                        <option value="1399" selected>1st Edition - ₹1,399</option>
+                        <option value="1699">2nd Edition - ₹1,699</option>
+                        <option value="1899">3rd Edition - ₹1,899</option>
+                        <option value="2099">4th Edition - ₹2,099</option>
+                    </select>
+                    <div class="record-rating">
+                        <div class="rating-stars">★★★★☆</div>
+                        <div class="rating-count">(87 reviews)</div>
+                    </div>
+                    <p class="record-description">
+                        The classic soundtrack featuring Lata Mangeshkar's soulful voice and Naushad's timeless compositions.
+                    </p>
+                    <div class="record-actions">
+                        <a href="view-product.html" class="btn-view-details">View Details</a>
+                        <a href="#" class="btn-add-cart">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Guide -->
+            <div class="record-card">
+                <img src="images/guide.jpg" alt="Guide" class="record-image">
+                <div class="record-info">
+                    <h3 class="record-title">Guide</h3>
+                    <div class="record-details">
+                        <div class="record-detail">
+                            <i>🎬</i>
+                            <span>Movie Year: 1965</span>
+                        </div>
+                        <div class="record-detail">
+                            <i>💿</i>
+                            <span>1st Edition</span>
+                        </div>
+                    </div>
+                    <div class="record-price">₹1,299</div>
+                    <select class="edition-select" data-original-price="1299">
+                        <option value="1299" selected>1st Edition - ₹1,299</option>
+                        <option value="1599">2nd Edition - ₹1,599</option>
+                        <option value="1799">3rd Edition - ₹1,799</option>
+                        <option value="1999">4th Edition - ₹1,999</option>
+                    </select>
+                    <div class="record-rating">
+                        <div class="rating-stars">★★★★★</div>
+                        <div class="rating-count">(112 reviews)</div>
+                    </div>
+                    <p class="record-description">
+                        S.D. Burman's masterpiece featuring Kishore Kumar and Lata Mangeshkar's unforgettable duets.
+                    </p>
+                    <div class="record-actions">
+                        <a href="view-product.html" class="btn-view-details">View Details</a>
+                        <a href="#" class="btn-add-cart">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-section about">
+                <h3>About MyStore</h3>
+                <p>Your go-to place for vinyl records, music gear, and audio accessories.</p>
+            </div>
+            <div class="footer-section links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#">Shop</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact">
+                <h3>Contact Us</h3>
+                <p>Email: support@mystore.com</p>
+                <p>Phone: +1 (555) 123-4567</p>
+                <p>Address: 123 Music Ave, Melody City</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2025 MyStore. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Currency conversion rates (example rates)
+        const exchangeRates = {
+            'INR': 1,
+            'USD': 0.012,
+            'EUR': 0.011,
+            'GBP': 0.0095
+        };
+
+        // Currency symbols
+        const currencySymbols = {
+            'INR': '₹',
+            'USD': '$',
+            'EUR': '€',
+            'GBP': '£'
+        };
+
+        // Function to update prices based on selected currency
+        function updatePrices(currency) {
+            const priceElements = document.querySelectorAll('.record-price');
+            priceElements.forEach(element => {
+                // Get the original price in INR (remove the ₹ symbol and convert to number)
+                const originalPrice = parseFloat(element.getAttribute('data-original-price') || element.textContent.replace('₹', '').replace(',', ''));
+                
+                // Convert to selected currency
+                const convertedPrice = originalPrice * exchangeRates[currency];
+                
+                // Format the price with 2 decimal places and appropriate symbol
+                const formattedPrice = `${currencySymbols[currency]}${convertedPrice.toFixed(2)}`;
+                
+                // Update the display
+                element.textContent = formattedPrice;
+            });
+        }
+
+        // Store original prices when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const priceElements = document.querySelectorAll('.record-price');
+            priceElements.forEach(element => {
+                const originalPrice = element.textContent.replace('₹', '').replace(',', '');
+                element.setAttribute('data-original-price', originalPrice);
+            });
+
+            // Add event listener to currency selector
+            const currencySelect = document.getElementById('currency');
+            currencySelect.addEventListener('change', function() {
+                updatePrices(this.value);
+            });
+        });
+
+        // Edition switcher functionality for record cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const editionSelects = document.querySelectorAll('.edition-select');
+            
+            editionSelects.forEach(select => {
+                select.addEventListener('change', function() {
+                    const card = this.closest('.record-card');
+                    const priceElement = card.querySelector('.record-price');
+                    const editionDetail = card.querySelector('.record-detail:last-child span');
+                    
+                    // Update price
+                    const newPrice = this.value;
+                    priceElement.textContent = `₹${newPrice}`;
+                    priceElement.setAttribute('data-original-price', newPrice);
+                    
+                    // Update edition detail
+                    const selectedOption = this.options[this.selectedIndex];
+                    const editionText = selectedOption.textContent.split(' - ')[0];
+                    editionDetail.textContent = editionText;
+                    
+                    // Update currency if needed
+                    const currencySelect = document.getElementById('currency');
+                    if (currencySelect) {
+                        updatePrices(currencySelect.value);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html> 
