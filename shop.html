@@ -212,6 +212,22 @@
             text-align: center;
             color: white;
             margin-bottom: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
         }
 
         .hero-title {
@@ -396,11 +412,14 @@
 
     <!-- HERO SECTION -->
     <section class="hero-section">
-        <h1 class="hero-title">Welcome to Our Music Store</h1>
-        <p class="hero-description">
-            Discover our extensive collection of vinyl records, audio CDs, DVDs, Blu-rays, and high-quality amplifiers. 
-            From classic Bollywood hits to contemporary soundtracks, find your perfect music companion.
-        </p>
+        <div id="particles-js"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Our Shop</h1>
+            <p class="hero-description">
+                Explore our wide range of products, from classic vinyl records to modern audio equipment. 
+                Find everything you need for your music collection and audio setup.
+            </p>
+        </div>
     </section>
 
     <!-- SHOP SECTION -->
@@ -874,7 +893,93 @@
     </footer>
 
     <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
+        particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 80,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: '#ffffff'
+                },
+                shape: {
+                    type: 'circle'
+                },
+                opacity: {
+                    value: 0.5,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 1,
+                        opacity_min: 0.1,
+                        sync: false
+                    }
+                },
+                size: {
+                    value: 3,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 2,
+                        size_min: 0.1,
+                        sync: false
+                    }
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#ffffff',
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: 'none',
+                    random: true,
+                    straight: false,
+                    out_mode: 'out',
+                    bounce: false,
+                    attract: {
+                        enable: true,
+                        rotateX: 600,
+                        rotateY: 1200
+                    }
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: 'grab'
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: 'push'
+                    },
+                    resize: true
+                },
+                modes: {
+                    grab: {
+                        distance: 140,
+                        line_linked: {
+                            opacity: 1
+                        }
+                    },
+                    push: {
+                        particles_nb: 4
+                    }
+                }
+            },
+            retina_detect: true
+        });
+
         // Add to Cart functionality
         function updateAddToCartButtons() {
             const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
