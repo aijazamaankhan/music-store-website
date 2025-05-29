@@ -160,7 +160,7 @@
 
         .about-features {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: 1fr;
             gap: 2rem;
             margin-top: 3rem;
         }
@@ -281,48 +281,57 @@
             text-transform: uppercase;
         }
 
-        .social-icons {
-            display: flex;
-            gap: 1.2rem;
-            margin-top: 1.5rem;
+        /* Header Responsive Styles */
+        @media (max-width: 992px) {
+            .main-header {
+                padding: 1rem;
+            }
         }
 
-        .social-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 38px;
-            height: 38px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 50%;
-            color: white;
-            font-size: 1.1rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
+        @media (max-width: 576px) {
+            .main-header {
+                padding: 0.8rem;
+            }
 
-        .social-icon::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--color-primary);
-            transform: scale(0);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: -1;
-        }
+            .logo-currency {
+                gap: 0.8rem;
+                margin-bottom: 0.8rem;
+            }
 
-        .social-icon:hover {
-            transform: translateY(-3px);
-            color: white;
-            box-shadow: 0 5px 15px rgba(255, 111, 97, 0.3);
-        }
+            .logo {
+                font-size: 1.3rem;
+            }
 
-        .social-icon:hover::before {
-            transform: scale(1);
+            .currency-switcher select {
+                padding: 0.4rem;
+                font-size: 0.9rem;
+            }
+
+            .search-bar {
+                margin-bottom: 0.8rem;
+            }
+
+            .search-bar input {
+                padding: 0.8rem;
+                font-size: 0.9rem;
+            }
+
+            .nav-links a {
+                padding: 0.8rem;
+                font-size: 0.95rem;
+            }
+
+            .cart-icon {
+                font-size: 1.2rem;
+                top: 0.8rem;
+                right: 3rem;
+            }
+
+            .menu-toggle {
+                top: 0.8rem;
+                right: 0.8rem;
+                font-size: 1.3rem;
+            }
         }
     </style>
 </head>
@@ -358,7 +367,7 @@
                         </ul>
                     </li>
                     <li><a href="about.html">About Us</a></li>
-                    <li><a href="#">Blog</a></li>
+                    <li><a href="blog.html">Blog</a></li>
                     <li><a href="contact.html">Contact Us</a></li>
                     <li><a href="login.html">Login / Register</a></li>
                 </ul>
@@ -535,7 +544,7 @@
                     <li><a href="index.html">Home</a></li>
                     <li><a href="shop.html">Shop</a></li>
                     <li><a href="about.html">About Us</a></li>
-                    <li><a href="#">Blog</a></li>
+                    <li><a href="blog.html">Blog</a></li>
                     <li><a href="contact.html">Contact Us</a></li>
                 </ul>
             </div>
@@ -557,6 +566,78 @@
     <script src="script.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
+        // Carousel functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Featured Products Carousel
+            const featuredTrack = document.querySelector('.feature-carousel .carousel-track');
+            const featuredPrevBtn = document.querySelector('.feature-carousel .prev');
+            const featuredNextBtn = document.querySelector('.feature-carousel .next');
+            let featuredPosition = 0;
+            const featuredCardWidth = featuredTrack.querySelector('.feature-card').offsetWidth;
+            const featuredGap = 20; // Gap between cards in pixels
+
+            function updateFeaturedCarousel() {
+                featuredTrack.style.transform = `translateX(${featuredPosition}px)`;
+            }
+
+            featuredPrevBtn.addEventListener('click', () => {
+                const cardsPerView = Math.floor(featuredTrack.offsetWidth / (featuredCardWidth + featuredGap));
+                featuredPosition += (featuredCardWidth + featuredGap) * cardsPerView;
+                if (featuredPosition > 0) {
+                    featuredPosition = 0;
+                }
+                updateFeaturedCarousel();
+            });
+
+            featuredNextBtn.addEventListener('click', () => {
+                const cardsPerView = Math.floor(featuredTrack.offsetWidth / (featuredCardWidth + featuredGap));
+                const maxPosition = -(featuredCardWidth + featuredGap) * (featuredTrack.children.length - cardsPerView);
+                featuredPosition -= (featuredCardWidth + featuredGap) * cardsPerView;
+                if (featuredPosition < maxPosition) {
+                    featuredPosition = maxPosition;
+                }
+                updateFeaturedCarousel();
+            });
+
+            // Upcoming Products Carousel
+            const upcomingTrack = document.querySelector('.upcoming-carousel .carousel-track');
+            const upcomingPrevBtn = document.querySelector('.upcoming-carousel .prev');
+            const upcomingNextBtn = document.querySelector('.upcoming-carousel .next');
+            let upcomingPosition = 0;
+            const upcomingCardWidth = upcomingTrack.querySelector('.feature-card').offsetWidth;
+            const upcomingGap = 20; // Gap between cards in pixels
+
+            function updateUpcomingCarousel() {
+                upcomingTrack.style.transform = `translateX(${upcomingPosition}px)`;
+            }
+
+            upcomingPrevBtn.addEventListener('click', () => {
+                const cardsPerView = Math.floor(upcomingTrack.offsetWidth / (upcomingCardWidth + upcomingGap));
+                upcomingPosition += (upcomingCardWidth + upcomingGap) * cardsPerView;
+                if (upcomingPosition > 0) {
+                    upcomingPosition = 0;
+                }
+                updateUpcomingCarousel();
+            });
+
+            upcomingNextBtn.addEventListener('click', () => {
+                const cardsPerView = Math.floor(upcomingTrack.offsetWidth / (upcomingCardWidth + upcomingGap));
+                const maxPosition = -(upcomingCardWidth + upcomingGap) * (upcomingTrack.children.length - cardsPerView);
+                upcomingPosition -= (upcomingCardWidth + upcomingGap) * cardsPerView;
+                if (upcomingPosition < maxPosition) {
+                    upcomingPosition = maxPosition;
+                }
+                updateUpcomingCarousel();
+            });
+
+            // Update carousel on window resize
+            window.addEventListener('resize', () => {
+                updateFeaturedCarousel();
+                updateUpcomingCarousel();
+            });
+        });
+
+        // Particles.js configuration
         particlesJS('particles-js', {
             particles: {
                 number: {

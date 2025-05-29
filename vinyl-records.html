@@ -222,6 +222,16 @@
             padding: 6rem 2rem;
             margin-bottom: 4rem;
             position: relative;
+            overflow: hidden;
+        }
+
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
         }
 
         .title-section::before {
@@ -233,13 +243,14 @@
             bottom: 0;
             background: linear-gradient(45deg, rgba(255, 111, 97, 0.2), rgba(255, 111, 97, 0));
             pointer-events: none;
+            z-index: 2;
         }
 
         .title-content {
             max-width: 1200px;
             margin: 0 auto;
             position: relative;
-            z-index: 1;
+            z-index: 3;
         }
 
         .section-title {
@@ -370,14 +381,12 @@
         </div>
     </header>
 
-    <!-- RECORDS SECTION -->
+    <!-- TITLE SECTION -->
     <section class="title-section">
+        <div id="particles-js"></div>
         <div class="title-content">
-            <h1 class="section-title">Hindi Movie Vinyl Records</h1>
-            <p class="section-description">
-                Discover our exclusive collection of Hindi movie vinyl records. From classic Bollywood hits to contemporary soundtracks, 
-                experience the magic of analog sound with these carefully curated records.
-            </p>
+            <h1 class="section-title">Vinyl Records</h1>
+            <p class="section-description">Discover our extensive collection of vinyl records, from classic albums to the latest releases.</p>
         </div>
     </section>
 
@@ -612,10 +621,10 @@
                 <h3>Quick Links</h3>
                 <ul>
                     <li><a href="index.html">Home</a></li>
-                    <li><a href="#">Shop</a></li>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
                 </ul>
             </div>
             <div class="footer-section contact">
@@ -623,6 +632,12 @@
                 <p>Email: support@mystore.com</p>
                 <p>Phone: +1 (555) 123-4567</p>
                 <p>Address: 123 Music Ave, Melody City</p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                </div>
             </div>
         </div>
         <div class="footer-bottom">
@@ -631,83 +646,91 @@
     </footer>
 
     <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
-        // Currency conversion rates (example rates)
-        const exchangeRates = {
-            'INR': 1,
-            'USD': 0.012,
-            'EUR': 0.011,
-            'GBP': 0.0095
-        };
-
-        // Currency symbols
-        const currencySymbols = {
-            'INR': '₹',
-            'USD': '$',
-            'EUR': '€',
-            'GBP': '£'
-        };
-
-        // Function to update prices based on selected currency
-        function updatePrices(currency) {
-            const priceElements = document.querySelectorAll('.record-price');
-            priceElements.forEach(element => {
-                // Get the original price in INR (remove the ₹ symbol and convert to number)
-                const originalPrice = parseFloat(element.getAttribute('data-original-price') || element.textContent.replace('₹', '').replace(',', ''));
-                
-                // Convert to selected currency
-                const convertedPrice = originalPrice * exchangeRates[currency];
-                
-                // Format the price with 2 decimal places and appropriate symbol
-                const formattedPrice = `${currencySymbols[currency]}${convertedPrice.toFixed(2)}`;
-                
-                // Update the display
-                element.textContent = formattedPrice;
-            });
-        }
-
-        // Store original prices when the page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            const priceElements = document.querySelectorAll('.record-price');
-            priceElements.forEach(element => {
-                const originalPrice = element.textContent.replace('₹', '').replace(',', '');
-                element.setAttribute('data-original-price', originalPrice);
-            });
-
-            // Add event listener to currency selector
-            const currencySelect = document.getElementById('currency');
-            currencySelect.addEventListener('change', function() {
-                updatePrices(this.value);
-            });
-        });
-
-        // Edition switcher functionality for record cards
-        document.addEventListener('DOMContentLoaded', function() {
-            const editionSelects = document.querySelectorAll('.edition-select');
-            
-            editionSelects.forEach(select => {
-                select.addEventListener('change', function() {
-                    const card = this.closest('.record-card');
-                    const priceElement = card.querySelector('.record-price');
-                    const editionDetail = card.querySelector('.record-detail:last-child span');
-                    
-                    // Update price
-                    const newPrice = this.value;
-                    priceElement.textContent = `₹${newPrice}`;
-                    priceElement.setAttribute('data-original-price', newPrice);
-                    
-                    // Update edition detail
-                    const selectedOption = this.options[this.selectedIndex];
-                    const editionText = selectedOption.textContent.split(' - ')[0];
-                    editionDetail.textContent = editionText;
-                    
-                    // Update currency if needed
-                    const currencySelect = document.getElementById('currency');
-                    if (currencySelect) {
-                        updatePrices(currencySelect.value);
+        particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 80,
+                    density: {
+                        enable: true,
+                        value_area: 800
                     }
-                });
-            });
+                },
+                color: {
+                    value: '#ffffff'
+                },
+                shape: {
+                    type: 'circle'
+                },
+                opacity: {
+                    value: 0.5,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 1,
+                        opacity_min: 0.1,
+                        sync: false
+                    }
+                },
+                size: {
+                    value: 3,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 2,
+                        size_min: 0.1,
+                        sync: false
+                    }
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#ffffff',
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: 'none',
+                    random: true,
+                    straight: false,
+                    out_mode: 'out',
+                    bounce: false,
+                    attract: {
+                        enable: true,
+                        rotateX: 600,
+                        rotateY: 1200
+                    }
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: 'grab'
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: 'push'
+                    },
+                    resize: true
+                },
+                modes: {
+                    grab: {
+                        distance: 140,
+                        line_linked: {
+                            opacity: 1
+                        }
+                    },
+                    push: {
+                        particles_nb: 4
+                    }
+                }
+            },
+            retina_detect: true
         });
     </script>
 </body>

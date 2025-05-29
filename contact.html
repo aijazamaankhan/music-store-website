@@ -216,48 +216,109 @@
             }
         }
 
-        .social-icons {
-            display: flex;
-            gap: 1.2rem;
-            margin-top: 1.5rem;
+        /* Particles Container */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
         }
 
-        .social-icon {
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('images/contact-hero.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 8rem 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            min-height: 60vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 38px;
-            height: 38px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 50%;
-            color: white;
-            font-size: 1.1rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hero-content {
             position: relative;
-            overflow: hidden;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
         }
 
-        .social-icon::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--color-primary);
-            transform: scale(0);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: -1;
+        .hero-content h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: fadeInDown 1s ease-out;
         }
 
-        .social-icon:hover {
-            transform: translateY(-3px);
-            color: white;
-            box-shadow: 0 5px 15px rgba(255, 111, 97, 0.3);
+        .hero-content p {
+            font-size: 1.4rem;
+            line-height: 1.6;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease-out;
         }
 
-        .social-icon:hover::before {
-            transform: scale(1);
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 6rem 1.5rem;
+                min-height: 50vh;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content p {
+                font-size: 1.2rem;
+                padding: 0 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-section {
+                padding: 4rem 1rem;
+                min-height: 40vh;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .hero-content p {
+                font-size: 1.1rem;
+            }
         }
     </style>
 </head>
@@ -292,7 +353,7 @@
                         </ul>
                     </li>
                     <li><a href="about.html">About Us</a></li>
-                    <li><a href="#">Blog</a></li>
+                    <li><a href="blog.html">Blog</a></li>
                     <li><a href="contact.html">Contact Us</a></li>
                     <li><a href="login.html">Login / Register</a></li>
                 </ul>
@@ -307,10 +368,10 @@
         </div>
     </header>
 
-    <!-- Contact Hero Section -->
-    <section class="contact-hero">
+    <!-- HERO SECTION -->
+    <section class="hero-section">
         <div id="particles-js"></div>
-        <div class="contact-hero-content">
+        <div class="hero-content">
             <h1>Get in Touch</h1>
             <p>We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
         </div>
@@ -375,7 +436,7 @@
     <footer class="main-footer">
         <div class="footer-container">
             <div class="footer-section about">
-                <h3>About Store</h3>
+                <h3>About MyStore</h3>
                 <p>Your go-to place for vinyl records, music gear, and audio accessories.</p>
             </div>
             <div class="footer-section links">
@@ -384,13 +445,13 @@
                     <li><a href="index.html">Home</a></li>
                     <li><a href="shop.html">Shop</a></li>
                     <li><a href="about.html">About Us</a></li>
-                    <li><a href="#">Blog</a></li>
+                    <li><a href="blog.html">Blog</a></li>
                     <li><a href="contact.html">Contact Us</a></li>
                 </ul>
             </div>
             <div class="footer-section contact">
                 <h3>Contact Us</h3>
-                <p>Email: support@store.com</p>
+                <p>Email: support@mystore.com</p>
                 <p>Phone: +1 (555) 123-4567</p>
                 <p>Address: 123 Music Ave, Melody City</p>
                 <div class="social-icons">

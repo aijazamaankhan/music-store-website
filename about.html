@@ -180,48 +180,24 @@
             }
         }
 
-        .social-icons {
-            display: flex;
-            gap: 1.2rem;
-            margin-top: 1.5rem;
+        /* Particles Container */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
         }
 
-        .social-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 38px;
-            height: 38px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 50%;
-            color: white;
-            font-size: 1.1rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        .hero-section {
             position: relative;
             overflow: hidden;
         }
 
-        .social-icon::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--color-primary);
-            transform: scale(0);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: -1;
-        }
-
-        .social-icon:hover {
-            transform: translateY(-3px);
-            color: white;
-            box-shadow: 0 5px 15px rgba(255, 111, 97, 0.3);
-        }
-
-        .social-icon:hover::before {
-            transform: scale(1);
+        .hero-content {
+            position: relative;
+            z-index: 2;
         }
     </style>
 </head>
@@ -256,7 +232,7 @@
                         </ul>
                     </li>
                     <li><a href="about.html">About Us</a></li>
-                    <li><a href="#">Blog</a></li>
+                    <li><a href="blog.html">Blog</a></li>
                     <li><a href="contact.html">Contact Us</a></li>
                     <li><a href="login.html">Login / Register</a></li>
                 </ul>
@@ -332,7 +308,7 @@
     <footer class="main-footer">
         <div class="footer-container">
             <div class="footer-section about">
-                <h3>About Store</h3>
+                <h3>About MyStore</h3>
                 <p>Your go-to place for vinyl records, music gear, and audio accessories.</p>
             </div>
             <div class="footer-section links">
@@ -341,13 +317,13 @@
                     <li><a href="index.html">Home</a></li>
                     <li><a href="shop.html">Shop</a></li>
                     <li><a href="about.html">About Us</a></li>
-                    <li><a href="#">Blog</a></li>
+                    <li><a href="blog.html">Blog</a></li>
                     <li><a href="contact.html">Contact Us</a></li>
                 </ul>
             </div>
             <div class="footer-section contact">
                 <h3>Contact Us</h3>
-                <p>Email: support@store.com</p>
+                <p>Email: support@mystore.com</p>
                 <p>Phone: +1 (555) 123-4567</p>
                 <p>Address: 123 Music Ave, Melody City</p>
                 <div class="social-icons">
